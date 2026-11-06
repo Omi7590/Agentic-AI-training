@@ -21,3 +21,5 @@ env/
 # os
 .DS_Store
 Thumbs.db
+
+data/raw/

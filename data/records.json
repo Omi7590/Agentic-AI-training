@@ -1,0 +1,162 @@
+[
+  {
+    "topic": "Who can file RTI",
+    "rule": "Any citizen of India can file an RTI application.",
+    "section_or_rule_ref": "Section 3, RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "No restriction",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Application fee - Central",
+    "rule": "RTI application fee for central public authorities is Rs 10.",
+    "section_or_rule_ref": "RTI (Fee and Cost) Rules 2005, Rule 3",
+    "jurisdiction": "Central",
+    "amount_or_time_limit": "Rs 10",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Application fee - Maharashtra",
+    "rule": "RTI application fee for Maharashtra state authorities is Rs 10.",
+    "section_or_rule_ref": "Maharashtra RTI Rules 2005, Rule 3",
+    "jurisdiction": "Maharashtra",
+    "amount_or_time_limit": "Rs 10",
+    "source_url": "https://rti.gov.in/"
+  },
+  {
+    "topic": "BPL fee exemption",
+    "rule": "Applicants below poverty line (BPL) are exempt from all RTI fees.",
+    "section_or_rule_ref": "Section 7(5), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Nil",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "PIO reply deadline",
+    "rule": "The PIO must reply to an RTI application within 30 days of receipt.",
+    "section_or_rule_ref": "Section 7(1), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "30 days",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Life and liberty deadline",
+    "rule": "If the information concerns life or liberty of a person, the PIO must reply within 48 hours.",
+    "section_or_rule_ref": "Section 7(1), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "48 hours",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "APIO extra time",
+    "rule": "If the application is submitted through an APIO, 5 extra days are added to the reply deadline.",
+    "section_or_rule_ref": "Section 5(2), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "+5 days (total 35 days)",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Transfer under Section 6(3)",
+    "rule": "If the application is sent to the wrong PIO, it must be transferred within 5 days and the applicant informed.",
+    "section_or_rule_ref": "Section 6(3), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "5 days to transfer",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Per-page copy fee - Central",
+    "rule": "Cost for providing information is Rs 2 per page for central public authorities.",
+    "section_or_rule_ref": "RTI (Fee and Cost) Rules 2005, Rule 4",
+    "jurisdiction": "Central",
+    "amount_or_time_limit": "Rs 2 per page",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Per-page copy fee - Maharashtra",
+    "rule": "Cost for providing information is Rs 2 per page for Maharashtra state authorities.",
+    "section_or_rule_ref": "Maharashtra RTI Rules 2005, Rule 4",
+    "jurisdiction": "Maharashtra",
+    "amount_or_time_limit": "Rs 2 per page",
+    "source_url": "https://rti.gov.in/"
+  },
+  {
+    "topic": "First appeal",
+    "rule": "First appeal must be filed within 30 days of the PIO reply (or non-reply) to the first appellate authority.",
+    "section_or_rule_ref": "Section 19(1), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Within 30 days",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "First appeal fee - Maharashtra",
+    "rule": "Fee for filing a first appeal in Maharashtra is Rs 20.",
+    "section_or_rule_ref": "Maharashtra RTI Rules 2005, Rule 5",
+    "jurisdiction": "Maharashtra",
+    "amount_or_time_limit": "Rs 20",
+    "source_url": "https://rti.gov.in/"
+  },
+  {
+    "topic": "Second appeal",
+    "rule": "Second appeal lies with the Central Information Commission (CIC) or State Information Commission (SIC) within 90 days of first appeal order.",
+    "section_or_rule_ref": "Section 19(3), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Within 90 days",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Exemptions under Section 8",
+    "rule": "Certain information is exempt from disclosure, including national security, cabinet papers, personal privacy and information given in fiduciary capacity.",
+    "section_or_rule_ref": "Section 8, RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Not applicable",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Online portal - Central",
+    "rule": "RTI applications to central ministries can be filed online at the RTI Online Portal.",
+    "section_or_rule_ref": "DoPT OM, 2013",
+    "jurisdiction": "Central",
+    "amount_or_time_limit": "Not applicable",
+    "source_url": "https://rtionline.gov.in/"
+  },
+  {
+    "topic": "Online portal - Maharashtra",
+    "rule": "RTI applications to Maharashtra state departments can be filed online at the Aaple Sarkar RTI portal.",
+    "section_or_rule_ref": "Maharashtra Government, 2015",
+    "jurisdiction": "Maharashtra",
+    "amount_or_time_limit": "Not applicable",
+    "source_url": "https://aaplesarkar.mahaonline.gov.in/"
+  },
+  {
+    "topic": "Word limit - Maharashtra",
+    "rule": "RTI applications in Maharashtra must not exceed 150 words for the information sought.",
+    "section_or_rule_ref": "Maharashtra RTI Rules 2005, Rule 3",
+    "jurisdiction": "Maharashtra",
+    "amount_or_time_limit": "150 words",
+    "source_url": "https://rti.gov.in/"
+  },
+  {
+    "topic": "PIO designation",
+    "rule": "Every public authority must designate a Public Information Officer (PIO) to receive and reply to RTI applications.",
+    "section_or_rule_ref": "Section 5(1), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Not applicable",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "APIO designation",
+    "rule": "Public authorities with sub-offices must designate an Assistant Public Information Officer (APIO) at each sub-office.",
+    "section_or_rule_ref": "Section 5(2), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Not applicable",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  },
+  {
+    "topic": "Language of application",
+    "rule": "An RTI application may be written in Hindi, English or the official language of the area.",
+    "section_or_rule_ref": "Section 6(1), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Not applicable",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
+  }
+]
