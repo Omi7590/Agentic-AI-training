@@ -14,3 +14,13 @@
 
 - `day01_intro.py` — prints the project card and asks the user's name and RTI question.
 - `day01_menu.py` — a menu: about RTI Mitra, sample questions, a rule check and exit.
+
+
+
+
+## How to run
+
+### Start the API
+
+```powershell
+uvicorn app.main:app --reload
