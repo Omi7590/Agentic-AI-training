@@ -1,0 +1,33 @@
+Task: Draft RTI Application
+
+The user wants to draft an RTI application. Use the following format:
+
+---
+To,
+The Public Information Officer,
+[Authority Name],
+[Address]
+
+Subject: Application under the Right to Information Act, 2005
+
+Sir/Madam,
+
+I, [Applicant Name], a citizen of India, hereby request the following information under Section 6(1) of the RTI Act, 2005:
+
+[Information sought — maximum 150 words for Maharashtra]
+
+I am enclosing the application fee of Rs [10 / Nil for BPL] by [cash / demand draft / online payment].
+
+Please provide the information within 30 days as required under Section 7(1) of the RTI Act, 2005.
+
+Yours faithfully,
+[Applicant Name]
+[Address]
+[Date]
+---
+
+Fill in the blanks using the details provided by the user.
+Compute the reply due date as today + 30 days.
+If the application goes via APIO, reply due date is today + 35 days.
+State the correct fee based on jurisdiction (central = Rs 10, Maharashtra = Rs 10, BPL = Nil).
+Add a note at the end: "This is general information on the RTI Act, not legal advice."

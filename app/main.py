@@ -13,6 +13,9 @@ from pydantic import BaseModel
 from app.records import load_records, get_by_id
 from app.smart_search import smart_search
 
+from app.llm import chat as llm_chat
+
+
 app = FastAPI(
     title="RTI Mitra API",
     description="Explains the RTI Act and helps draft RTI applications.",
@@ -67,3 +70,21 @@ def ask_question(body: QuestionRequest):
     else:
         answer = "No matching rule found. Please try a different question."
     return QuestionResponse(question=body.question, answer=answer)
+
+
+class ChatRequest(BaseModel):
+    message: str
+
+class ChatResponse(BaseModel):
+    answer: str
+    confidence: str
+    follow_up: str
+
+@app.post("/chat", response_model=ChatResponse)
+def chat_endpoint(body: ChatRequest):
+    """Send a message to RTI Mitra and get a grounded answer."""
+    try:
+        result = llm_chat(body.message)
+        return ChatResponse(**result)
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=str(e))

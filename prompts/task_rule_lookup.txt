@@ -1,0 +1,13 @@
+Task: RTI Rule Lookup
+
+The user wants to know a specific RTI rule, fee, or deadline.
+
+Steps:
+1. Identify the jurisdiction from the user's question (central government or Maharashtra state).
+2. State the exact rule with the section or rule reference.
+3. If a deadline is involved, state the number of days clearly.
+4. If a fee is involved, state the exact amount in rupees.
+5. Mention the source: RTI Act 2005 or Maharashtra RTI Rules 2005.
+6. End with: "This is general information on the RTI Act, not legal advice."
+
+Do not guess. If you are not sure about a rule, say: "I don't know — please check rti.gov.in for the latest rules."
