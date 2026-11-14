@@ -1,5 +1,23 @@
 [
   {
+    "topic": "RTI Act 2005 — full text",
+    "rule": "The Right to Information Act 2005 is the primary legislation governing the right of citizens to request information from public authorities.",
+    "section_or_rule_ref": "RTI Act 2005 (full text)",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Not applicable",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+    "_raw_file": "rti_act_2005.pdf"
+  },
+  {
+    "topic": "RTI Online Portal — central filing",
+    "rule": "Citizens can file RTI applications online to central public authorities through the RTI Online Portal at rtionline.gov.in.",
+    "section_or_rule_ref": "DoPT OM, 2013",
+    "jurisdiction": "Central",
+    "amount_or_time_limit": "Not applicable",
+    "source_url": "https://rti.gov.in/",
+    "_raw_file": "rti_home_page.html"
+  },
+  {
     "topic": "Who can file RTI",
     "rule": "Any citizen of India can file an RTI application.",
     "section_or_rule_ref": "Section 3, RTI Act 2005",
