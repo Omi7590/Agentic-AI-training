@@ -24,6 +24,9 @@ Thumbs.db
 
 data/raw/
 
+# Chroma vector store (large binary files, re-buildable)
+data/chroma/
+
 
 
 # Environment variables - never commit real keys

@@ -14,6 +14,7 @@ from app.records import load_records, get_by_id
 from app.smart_search import smart_search
 
 from app.llm import chat as llm_chat
+from app.vectorstore import semantic_search as vector_search
 
 
 app = FastAPI(
@@ -88,3 +89,13 @@ def chat_endpoint(body: ChatRequest):
         return ChatResponse(**result)
     except ValueError as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/search/semantic")
+def semantic_search_endpoint(
+    q: str = Query(..., min_length=1),
+    top_k: int = Query(default=5, ge=1, le=20),
+):
+    """Semantic search using sentence-transformer embeddings and Chroma."""
+    results = vector_search(q, top_k=top_k)
+    return {"query": q, "total": len(results), "results": results}
