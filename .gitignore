@@ -22,7 +22,8 @@ env/
 .DS_Store
 Thumbs.db
 
-data/raw/
+data/raw/*.pdf
+data/raw/*.html
 
 # Chroma vector store (large binary files, re-buildable)
 data/chroma/

@@ -1,0 +1,23 @@
+{
+  "description": "Raw source files downloaded by app/fetch.py. Large files are git-ignored. Run app/fetch.py to re-download.",
+  "files": [
+    {
+      "filename": "rti_act_2005.pdf",
+      "url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+      "size_kb": 1089,
+      "used_by": "app/ingest.py — parses Sections 6, 7, 19"
+    },
+    {
+      "filename": "rti_home_page.html",
+      "url": "https://rti.gov.in/",
+      "size_kb": 85,
+      "used_by": "app/ingest.py — confirms source was fetched"
+    },
+    {
+      "filename": "rtionline_portal.html",
+      "url": "https://rtionline.gov.in/",
+      "size_kb": 20,
+      "used_by": "app/fetch.py — reference document"
+    }
+  ]
+}

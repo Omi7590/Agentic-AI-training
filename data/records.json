@@ -1,21 +1,57 @@
 [
   {
-    "topic": "RTI Act 2005 — full text",
-    "rule": "The Right to Information Act 2005 is the primary legislation governing the right of citizens to request information from public authorities.",
-    "section_or_rule_ref": "RTI Act 2005 (full text)",
+    "topic": "Section 6 — Request for information",
+    "rule": "A person who desires to obtain information shall make a request in writing or through electronic means in English, Hindi or the official language of the area, accompanied by the prescribed fee, to the Central Public Information Officer or the State Public Information Officer of the concerned public authority.",
+    "section_or_rule_ref": "Section 6(1), RTI Act 2005",
     "jurisdiction": "Central and State",
-    "amount_or_time_limit": "Not applicable",
+    "amount_or_time_limit": "With prescribed fee",
     "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
     "_raw_file": "rti_act_2005.pdf"
   },
   {
-    "topic": "RTI Online Portal — central filing",
-    "rule": "Citizens can file RTI applications online to central public authorities through the RTI Online Portal at rtionline.gov.in.",
-    "section_or_rule_ref": "DoPT OM, 2013",
-    "jurisdiction": "Central",
-    "amount_or_time_limit": "Not applicable",
-    "source_url": "https://rti.gov.in/",
-    "_raw_file": "rti_home_page.html"
+    "topic": "Section 7(1) — PIO reply deadline (30 days)",
+    "rule": "The PIO shall, subject to the proviso to sub-section (2) of Section 5 or the proviso to sub-section (3) of Section 6, as the case may be, deal with a request for information and convey the information to the applicant within thirty days of its receipt.",
+    "section_or_rule_ref": "Section 7(1), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "30 days",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+    "_raw_file": "rti_act_2005.pdf"
+  },
+  {
+    "topic": "Section 7(1) — Life and liberty deadline (48 hours)",
+    "rule": "If the information requested concerns the life or liberty of a person, it shall be provided within forty-eight hours of the receipt of the request.",
+    "section_or_rule_ref": "Section 7(1) proviso, RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "48 hours",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+    "_raw_file": "rti_act_2005.pdf"
+  },
+  {
+    "topic": "Section 7(5) — BPL fee exemption",
+    "rule": "A person who is a Below Poverty Line (BPL) applicant shall be provided information free of charge. The PIO shall not charge any fee from persons who are of BPL category.",
+    "section_or_rule_ref": "Section 7(5), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Nil",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+    "_raw_file": "rti_act_2005.pdf"
+  },
+  {
+    "topic": "Section 19(1) — First appeal",
+    "rule": "Any person who does not receive a decision from the PIO within the time specified under Section 7, or is aggrieved by a decision of the PIO, may prefer an appeal to the first appellate authority within thirty days from the date of expiry of the prescribed time or receipt of the decision.",
+    "section_or_rule_ref": "Section 19(1), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Within 30 days",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+    "_raw_file": "rti_act_2005.pdf"
+  },
+  {
+    "topic": "Section 19(3) — Second appeal to Information Commission",
+    "rule": "A second appeal against the first appellate authority's decision shall lie with the Central Information Commission or State Information Commission, as the case may be, within ninety days from the date of the first appeal decision or its deemed refusal.",
+    "section_or_rule_ref": "Section 19(3), RTI Act 2005",
+    "jurisdiction": "Central and State",
+    "amount_or_time_limit": "Within 90 days",
+    "source_url": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+    "_raw_file": "rti_act_2005.pdf"
   },
   {
     "topic": "Who can file RTI",
