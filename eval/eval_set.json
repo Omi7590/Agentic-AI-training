@@ -1,0 +1,887 @@
+[
+  {
+    "id": 1,
+    "question": "What is the RTI application fee in Maharashtra?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "The RTI application fee for Maharashtra state authorities is **Rs 10**.\n\n**Source:** Maharashtra RTI Rules 2005, Rule 3 (Context [1])",
+      "citations": [
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.5022
+        },
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.3774
+        },
+        {
+          "title": "First appeal fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.2902
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "The RTI application fee for Maharashtra state authorities is **Rs 10**.\n\nSource: Maharashtra RTI Rules 2005, Rule 3",
+      "citations": [
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.5022
+        },
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.3774
+        },
+        {
+          "title": "First appeal fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.2902
+        },
+        {
+          "title": "Application fee - Central",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.253
+        },
+        {
+          "title": "Per-page copy fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.152
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 2,
+    "question": "Within how many days must the PIO reply to an RTI?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "The Public Information Officer (PIO) must reply to an RTI application within **30 days** of receiving it.\n\n*   **Source:** Section 7(1), RTI Act 2005 [1]\n\n**Note:** If the information requested concerns the **life or liberty** of a person, the PIO must reply within **48 hours** instead.\n*   **Source:** Section 7(1), RTI Act 2005 [2]",
+      "citations": [
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.7355
+        },
+        {
+          "title": "Life and liberty deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.5106
+        },
+        {
+          "title": "Transfer under Section 6(3)",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3731
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "The Public Information Officer (PIO) must reply to an RTI application within **30 days** of receiving it.\n\n**Source:** Section 7(1), RTI Act 2005 [1]\n\n*Note: If the application was submitted through an Assistant Public Information Officer (APIO), the deadline is extended by 5 days, making it a total of 35 days (Section 5(2), RTI Act 2005 [5]). Additionally, if the information concerns the life or liberty of a person, the PIO must reply within 48 hours (Section 7(1), RTI Act 2005 [2]).*",
+      "citations": [
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.7355
+        },
+        {
+          "title": "Life and liberty deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.5106
+        },
+        {
+          "title": "Transfer under Section 6(3)",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3731
+        },
+        {
+          "title": "PIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.32
+        },
+        {
+          "title": "APIO extra time",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.287
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 3,
+    "question": "Can I ask for information about my own panchayat in Marathi?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "Yes, you can ask for information about your panchayat in Marathi.\n\nAccording to **Section 6(1) of the RTI Act 2005**, an RTI application may be written in Hindi, English, or the **official language of the area**. Since Marathi is the official language of Maharashtra, you are permitted to file your application in Marathi.\n\nAdditionally, **Section 3 of the RTI Act 2005** confirms that any citizen of India can file an RTI application. If you are in Maharashtra, you may also be able to file this application online via the **Aaple Sarkar RTI portal** (Maharashtra Government, 2015).\n\nThis is general information on the RTI Act, not legal advice.",
+      "citations": [
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": -0.0479
+        },
+        {
+          "title": "Language of application",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.1358
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.1928
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "Yes, you can ask for information about your panchayat in Marathi.\n\nAccording to **Section 6(1) of the RTI Act 2005**, an RTI application may be written in Hindi, English, or the official language of the area. Since Marathi is the official language of Maharashtra, you are permitted to file your application in Marathi.\n\nAdditionally, **Section 3 of the RTI Act 2005** confirms that any citizen of India can file an RTI application, so you are eligible to request this information.\n\nThis is general information on the RTI Act, not legal advice.",
+      "citations": [
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": -0.0479
+        },
+        {
+          "title": "Language of application",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.1358
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.1928
+        },
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": -0.2625
+        },
+        {
+          "title": "Per-page copy fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": -0.2773
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 4,
+    "question": "What is the fee for filing a first appeal in Maharashtra?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "The fee for filing a first appeal in Maharashtra is **Rs 20**.\n\n**Source:** Maharashtra RTI Rules 2005, Rule 5.",
+      "citations": [
+        {
+          "title": "First appeal fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.6449
+        },
+        {
+          "title": "First appeal",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1255
+        },
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.0671
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "The fee for filing a first appeal in Maharashtra is **Rs 20**.\n\n**Source:** Maharashtra RTI Rules 2005, Rule 5 (Reference [1]).",
+      "citations": [
+        {
+          "title": "First appeal fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.6449
+        },
+        {
+          "title": "First appeal",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1255
+        },
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.0671
+        },
+        {
+          "title": "Second appeal",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.0161
+        },
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": -0.0029
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 5,
+    "question": "What is the RTI application fee for central government authorities?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "The application fee for filing an RTI with a Central Public Authority is **Rs 10**.\n\n**Source:**\n*   **RTI (Fee and Costs) Rules, 2005, Rule 3**\n*   Reference: [1] Topic: \"Application Fee - Centre\"",
+      "citations": [
+        {
+          "title": "Application fee - Central",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3932
+        },
+        {
+          "title": "Online portal - Central",
+          "source": "https://rtionline.gov.in/",
+          "score": 0.225
+        },
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": 0.2023
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "The RTI application fee for central government authorities is **Rs 10**.\n\n**Source:** RTI (Fee and Cost) Rules 2005, Rule 3.",
+      "citations": [
+        {
+          "title": "Application fee - Central",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3932
+        },
+        {
+          "title": "Online portal - Central",
+          "source": "https://rtionline.gov.in/",
+          "score": 0.225
+        },
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": 0.2023
+        },
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.096
+        },
+        {
+          "title": "Per-page copy fee - Central",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.0904
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 6,
+    "question": "What did the PIO of Kopargaon municipal council reply to RTIs filed last month?",
+    "answerable": false,
+    "config_a": {
+      "top_k": 3,
+      "answer": "I don't know — RTI Mitra does not have access to live case records.",
+      "citations": [
+        {
+          "title": "PIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1608
+        },
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.1305
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.0522
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "I don't know — RTI Mitra does not have access to live case records.",
+      "citations": [
+        {
+          "title": "PIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1608
+        },
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.1305
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.0522
+        },
+        {
+          "title": "RTI Act 2005 — full text",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.0494
+        },
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": -0.0725
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 7,
+    "question": "Am I exempt from paying the RTI fee if I am below the poverty line?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "Yes, you are exempt from paying the RTI fee if you are below the poverty line (BPL). According to the RTI Act, applicants who are BPL are exempt from all RTI fees.\n\n**Source:** Section 7(5), RTI Act 2005",
+      "citations": [
+        {
+          "title": "BPL fee exemption",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.505
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.1415
+        },
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": -0.1542
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "Yes, if you are below the poverty line (BPL), you are exempt from paying all RTI fees.\n\n**Source:** Section 7(5), RTI Act 2005",
+      "citations": [
+        {
+          "title": "BPL fee exemption",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.505
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.1415
+        },
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": -0.1542
+        },
+        {
+          "title": "Online portal - Central",
+          "source": "https://rtionline.gov.in/",
+          "score": -0.1946
+        },
+        {
+          "title": "Language of application",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.2318
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 8,
+    "question": "What happens if the PIO does not reply within 30 days?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "Based on the provided context, I don't know based on the available RTI rules.\n\nThe context confirms that the Public Information Officer (PIO) is required to reply within 30 days (Section 7(1), RTI Act 2005), but it does not specify the consequences or remedies available to the applicant if the PIO fails to meet this deadline.",
+      "citations": [
+        {
+          "title": "Life and liberty deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.391
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3831
+        },
+        {
+          "title": "Transfer under Section 6(3)",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1482
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "If the Public Information Officer (PIO) does not reply within 30 days, you can file a **First Appeal**.\n\nAccording to the RTI Act, a First Appeal must be filed within **30 days** of the PIO's non-reply (or reply) to the First Appellate Authority.\n\n**Source:** Section 19(1), RTI Act 2005 [4]\n\nThis is general information on the RTI Act, not legal advice.",
+      "citations": [
+        {
+          "title": "Life and liberty deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.391
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3831
+        },
+        {
+          "title": "Transfer under Section 6(3)",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1482
+        },
+        {
+          "title": "First appeal",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.0067
+        },
+        {
+          "title": "APIO extra time",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.0182
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 9,
+    "question": "Can I file RTI through an APIO at a post office, and does that change the reply deadline?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "Yes, you can file an RTI application through an Appellate Public Information Officer (APIO). If you do so, the deadline for the reply is extended.\n\nAccording to the RTI Act 2005:\n*   **Standard Deadline:** Normally, the Public Information Officer (PIO) must reply within **30 days** of receiving the application (Section 7(1), RTI Act 2005).\n*   **APIO Extension:** If the application is submitted through an APIO, **5 extra days** are added to the reply deadline. This means the total time limit for the reply becomes **35 days** (Section 5(2), RTI Act 2005).\n\nThis is general information on the RTI Act, not legal advice.",
+      "citations": [
+        {
+          "title": "APIO extra time",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.367
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3288
+        },
+        {
+          "title": "PIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.047
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "Yes, you can file an RTI application through an Assistant Public Information Officer (APIO). According to the rules, public authorities with sub-offices must designate an APIO at each sub-office to receive applications (Section 5(2), RTI Act 2005).\n\nFiling through an APIO does change the reply deadline. While the standard deadline for a Public Information Officer (PIO) to reply is 30 days from receipt (Section 7(1), RTI Act 2005), if the application is submitted through an APIO, 5 extra days are added to this deadline. This results in a total time limit of 35 days for the reply (Section 5(2), RTI Act 2005).\n\nThis is general information on the RTI Act, not legal advice.",
+      "citations": [
+        {
+          "title": "APIO extra time",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.367
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3288
+        },
+        {
+          "title": "PIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.047
+        },
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": 0.0242
+        },
+        {
+          "title": "APIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.0211
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 10,
+    "question": "What information is exempt from disclosure under Section 8?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "Under Section 8 of the RTI Act 2005, certain information is exempt from disclosure. This includes:\n\n*   National security\n*   Cabinet papers\n*   Personal privacy\n*   Information given in fiduciary capacity\n\nReference: Section 8, RTI Act 2005.",
+      "citations": [
+        {
+          "title": "Exemptions under Section 8",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.6171
+        },
+        {
+          "title": "RTI Act 2005 — full text",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.2134
+        },
+        {
+          "title": "APIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.2479
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "Under Section 8 of the RTI Act 2005, certain information is exempt from disclosure. This includes:\n\n*   National security\n*   Cabinet papers\n*   Personal privacy\n*   Information given in fiduciary capacity\n\n**Source:** Section 8, RTI Act 2005",
+      "citations": [
+        {
+          "title": "Exemptions under Section 8",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.6171
+        },
+        {
+          "title": "RTI Act 2005 — full text",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.2134
+        },
+        {
+          "title": "APIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.2479
+        },
+        {
+          "title": "PIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.3262
+        },
+        {
+          "title": "BPL fee exemption",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.3944
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 11,
+    "question": "How many days does the PIO have to transfer a wrongly addressed RTI application?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "The Public Information Officer (PIO) has **5 days** to transfer an RTI application that was sent to the wrong PIO. The applicant must also be informed about this transfer.\n\n**Source:** Section 6(3), RTI Act 2005",
+      "citations": [
+        {
+          "title": "Transfer under Section 6(3)",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.7028
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.5076
+        },
+        {
+          "title": "PIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.2053
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "The PIO has **5 days** to transfer an RTI application that was sent to the wrong Public Information Officer (PIO). The applicant must also be informed about this transfer.\n\n**Source:** Section 6(3), RTI Act 2005",
+      "citations": [
+        {
+          "title": "Transfer under Section 6(3)",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.7028
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.5076
+        },
+        {
+          "title": "PIO designation",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.2053
+        },
+        {
+          "title": "APIO extra time",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1644
+        },
+        {
+          "title": "Life and liberty deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1605
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 12,
+    "question": "What is the deadline for filing a second appeal?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "The deadline for filing a second appeal is **within 90 days** of the first appeal order.\n\n**Source:** Section 19(3), RTI Act 2005 [1]",
+      "citations": [
+        {
+          "title": "Second appeal",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3668
+        },
+        {
+          "title": "First appeal",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.325
+        },
+        {
+          "title": "First appeal fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": -0.0484
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "The deadline for filing a second appeal is **within 90 days** of the first appeal order.\n\n**Source:** Section 19(3), RTI Act 2005",
+      "citations": [
+        {
+          "title": "Second appeal",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3668
+        },
+        {
+          "title": "First appeal",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.325
+        },
+        {
+          "title": "First appeal fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": -0.0484
+        },
+        {
+          "title": "PIO reply deadline",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.1141
+        },
+        {
+          "title": "APIO extra time",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.1406
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 13,
+    "question": "Can I file RTI online for a Maharashtra state department?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "Yes, you can file an RTI application online for a Maharashtra state department.\n\nAccording to the provided context, RTI applications to Maharashtra state departments can be filed online at the **Aaple Sarkar RTI portal** (Source: [1], Maharashtra Government, 2015).\n\nThis is general information on the RTI Act, not legal advice.",
+      "citations": [
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.6658
+        },
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": 0.3262
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.2842
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "Yes, you can file an RTI application online for a Maharashtra state department.\n\nAccording to the provided rules, RTI applications to Maharashtra state departments can be filed online at the **Aaple Sarkar RTI portal** (Source: [1], Maharashtra Government, 2015).\n\nAdditionally, please note that the application fee for Maharashtra state authorities is **Rs 10** (Source: [5], Maharashtra RTI Rules 2005, Rule 3).\n\nThis is general information on the RTI Act, not Legal Advice.",
+      "citations": [
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.6658
+        },
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": 0.3262
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.2842
+        },
+        {
+          "title": "Online portal - Central",
+          "source": "https://rtionline.gov.in/",
+          "score": 0.1875
+        },
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.1491
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 14,
+    "question": "Can I file RTI online for a central government ministry?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "Yes, you can file an RTI application online for a central government ministry.\n\nAccording to the provided rules, citizens can file RTI applications online to central public authorities, including central ministries, through the RTI Online Portal at **rtionline.gov.in**. This facility is established under the DoPT Office Memorandum (OM) from 2013.\n\n**Source References:**\n*   DoPT OM, 2013 (RTI Online Portal — central filing)\n*   DoPT OM, 2013 (Online portal - Central)",
+      "citations": [
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": 0.4824
+        },
+        {
+          "title": "Online portal - Central",
+          "source": "https://rtionline.gov.in/",
+          "score": 0.4253
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1916
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "Yes, you can file an RTI application online for a central government ministry.\n\nAccording to the provided rules, citizens can file RTI applications to central public authorities (including central ministries) through the **RTI Online Portal** at **rtionline.gov.in**. This facility was established under the Department of Personnel and Training (DoPT) Office Memorandum of 2013.\n\n**Source References:**\n*   DoPT OM, 2013 (Source: https://rti.gov.in/ | Title: RTI Online Portal — central filing)\n*   DoPT OM, 2013 (Source: https://rtionline.gov.in/ | Title: Online portal - Central)",
+      "citations": [
+        {
+          "title": "RTI Online Portal — central filing",
+          "source": "https://rti.gov.in/",
+          "score": 0.4824
+        },
+        {
+          "title": "Online portal - Central",
+          "source": "https://rtionline.gov.in/",
+          "score": 0.4253
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.1916
+        },
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.0965
+        },
+        {
+          "title": "RTI Act 2005 — full text",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": -0.0375
+        }
+      ],
+      "chunks_used": 5
+    }
+  },
+  {
+    "id": 15,
+    "question": "How many words can I use in an RTI application in Maharashtra?",
+    "answerable": true,
+    "config_a": {
+      "top_k": 3,
+      "answer": "In Maharashtra, an RTI application must not exceed **150 words** for the information sought.\n\n**Source:** Maharashtra RTI Rules 2005, Rule 3",
+      "citations": [
+        {
+          "title": "Word limit - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.5937
+        },
+        {
+          "title": "Language of application",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3418
+        },
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.3125
+        }
+      ],
+      "chunks_used": 3
+    },
+    "config_b": {
+      "top_k": 5,
+      "answer": "In Maharashtra, your RTI application must not exceed **150 words** for the information sought.\n\n**Source:** Maharashtra RTI Rules 2005, Rule 3",
+      "citations": [
+        {
+          "title": "Word limit - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.5937
+        },
+        {
+          "title": "Language of application",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.3418
+        },
+        {
+          "title": "Online portal - Maharashtra",
+          "source": "https://aaplesarkar.mahaonline.gov.in/",
+          "score": 0.3125
+        },
+        {
+          "title": "Application fee - Maharashtra",
+          "source": "https://rti.gov.in/",
+          "score": 0.2355
+        },
+        {
+          "title": "Who can file RTI",
+          "source": "https://rti.gov.in/Writereaddata/RTI-Act.pdf",
+          "score": 0.0375
+        }
+      ],
+      "chunks_used": 5
+    }
+  }
+]

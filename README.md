@@ -24,6 +24,7 @@
 | Day 3 | Files, errors, dataclass, requests | ✅ Done |
 | Day 4 | FastAPI, pandas, TF-IDF smart search | ✅ Done |
 | Day 5 | How LLMs work, 10 user questions | ✅ Done |
+| Day 8 | RAG /ask endpoint, eval set, 2 config runs | ✅ Done |
 
 ---
 
@@ -111,6 +112,17 @@ python analysis/explore.py
 | GET | /records/{id} | Get one record by ID (404 if missing) |
 | GET | /search?q= | TF-IDF semantic search |
 | POST | /questions | Ask a plain-language RTI question |
+
+---
+
+## RAG Evaluation — Config winner
+
+| Config | top_k | Score |
+|--------|-------|-------|
+| Config A | 3 | 14/15 |
+| Config B | 5 | 15/15 |
+
+**Winner: Config B (top_k=5)** — fetching 5 chunks gives the LLM enough context for multi-part questions like appeal deadlines and APIO rules.
 
 ---
 

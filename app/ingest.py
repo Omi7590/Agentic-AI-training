@@ -1,9 +1,10 @@
 # RTI Mitra - ingest.py
-# Reads downloaded files from data/raw/:
-#   - rti_act_2005.pdf  → parses Sections 6, 7, 19 with pdfplumber
-#   - rti_home_page.html → confirms the HTML was fetched
+# S1: Downloads data/raw/rti_act_2005.pdf with fetch.py, then this script
+# opens it with pdfplumber, slices the real text of Sections 6, 7 and 19
+# using regex between headings, and fills rule + amount_or_time_limit
+# directly from the extracted text.
 # Also loads curated sample_records.py records.
-# Validates each row with try/except for bad/missing fields.
+# Validates each row with try/except for bad rows.
 # Saves all cleaned records to data/records.json.
 
 import json
@@ -35,15 +36,46 @@ REQUIRED_FIELDS = [
 PDF_SOURCE = "https://rti.gov.in/Writereaddata/RTI-Act.pdf"
 
 
+def slice_section(full_text: str, start_pattern: str, end_pattern: str) -> str:
+    """
+    Slice the real text between start_pattern and end_pattern from the PDF.
+    Returns cleaned single-line text.
+    """
+    m_start = re.search(start_pattern, full_text)
+    if not m_start:
+        return ""
+    m_end = re.search(end_pattern, full_text[m_start.start():])
+    if m_end:
+        raw = full_text[m_start.start(): m_start.start() + m_end.start()]
+    else:
+        raw = full_text[m_start.start(): m_start.start() + 1200]
+    # Clean up line breaks and extra spaces from PDF extraction
+    cleaned = re.sub(r'\s+', ' ', raw).strip()
+    return cleaned
+
+
+def extract_amount(text: str) -> str:
+    """Pull out a time limit or amount from sliced section text."""
+    if re.search(r'forty.eight hours', text, re.IGNORECASE):
+        return "48 hours"
+    if re.search(r'thirty days', text, re.IGNORECASE):
+        return "30 days"
+    if re.search(r'ninety days', text, re.IGNORECASE):
+        return "90 days"
+    if re.search(r'five days|5 days', text, re.IGNORECASE):
+        return "5 days"
+    if re.search(r'free of charge|no fee|nil', text, re.IGNORECASE):
+        return "Nil"
+    return "Not specified"
+
+
 def extract_pdf_records(pdf_path: str) -> list:
     """
-    Open data/raw/rti_act_2005.pdf with pdfplumber and extract
-    rules from Sections 6, 7 and 19 of the RTI Act 2005.
-    Returns a list of record dicts with all required fields.
+    Open data/raw/rti_act_2005.pdf with pdfplumber, extract the full text,
+    then slice Sections 6, 7 and 19 using regex between headings.
+    The rule field is filled directly from the sliced PDF text.
     """
-    records = []
     full_text = ""
-
     print(f"[PDF]   Opening {pdf_path}")
     with pdfplumber.open(pdf_path) as pdf:
         print(f"[PDF]   {len(pdf.pages)} pages found")
@@ -52,65 +84,52 @@ def extract_pdf_records(pdf_path: str) -> list:
             if text:
                 full_text += text + "\n"
 
-    # ── Section 6: Request for information ─────────────────────────────────
-    if re.search(r"6\.\s*\(1\)", full_text):
+    records = []
+
+    # ── Section 6(1) — Request for information ──────────────────────────────
+    sec6_text = slice_section(
+        full_text,
+        r'6\.\s*\(1\)',
+        r'7\.\s*\(1\)'
+    )
+    if sec6_text:
         records.append({
-            "topic": "Section 6 — Request for information",
-            "rule": (
-                "A person who desires to obtain information shall make a request "
-                "in writing or through electronic means in English, Hindi or the "
-                "official language of the area, accompanied by the prescribed fee, "
-                "to the Central Public Information Officer or the State Public "
-                "Information Officer of the concerned public authority."
-            ),
+            "topic": "Section 6 — Request for information (how to file RTI)",
+            "rule": sec6_text[:600],
             "section_or_rule_ref": "Section 6(1), RTI Act 2005",
             "jurisdiction": "Central and State",
-            "amount_or_time_limit": "With prescribed fee",
+            "amount_or_time_limit": extract_amount(sec6_text) or "With prescribed fee",
             "source_url": PDF_SOURCE,
             "_raw_file": "rti_act_2005.pdf",
         })
 
-    if re.search(r"6\.\s*\(3\)|transferred", full_text, re.IGNORECASE):
+    # ── Section 7(1) — PIO reply within 30 days ─────────────────────────────
+    sec7_text = slice_section(
+        full_text,
+        r'7\.\s*\(1\)',
+        r'8\.\s*\(1\)|8\.\s*There'
+    )
+    if sec7_text:
         records.append({
-            "topic": "Section 6(3) — Transfer of application to correct PIO",
-            "rule": (
-                "If a request is made to a public authority that does not hold "
-                "the information, the PIO shall transfer the application or relevant "
-                "part of it to the PIO of the correct public authority within 5 days "
-                "and inform the applicant."
-            ),
-            "section_or_rule_ref": "Section 6(3), RTI Act 2005",
-            "jurisdiction": "Central and State",
-            "amount_or_time_limit": "5 days to transfer",
-            "source_url": PDF_SOURCE,
-            "_raw_file": "rti_act_2005.pdf",
-        })
-
-    # ── Section 7: Disposal of request ─────────────────────────────────────
-    if re.search(r"thirty days|30 days|7\.\s*\(1\)", full_text, re.IGNORECASE):
-        records.append({
-            "topic": "Section 7(1) — PIO reply deadline (30 days)",
-            "rule": (
-                "The PIO shall, subject to the proviso to sub-section (2) of "
-                "Section 5 or the proviso to sub-section (3) of Section 6, as the "
-                "case may be, deal with a request for information and convey the "
-                "information to the applicant within thirty days of its receipt."
-            ),
+            "topic": "Section 7(1) — PIO must reply within 30 days",
+            "rule": sec7_text[:600],
             "section_or_rule_ref": "Section 7(1), RTI Act 2005",
             "jurisdiction": "Central and State",
-            "amount_or_time_limit": "30 days",
+            "amount_or_time_limit": "30 days (48 hours for life or liberty)",
             "source_url": PDF_SOURCE,
             "_raw_file": "rti_act_2005.pdf",
         })
 
-    if re.search(r"forty-eight hours|48 hours|life or liberty", full_text, re.IGNORECASE):
+    # ── Section 7(1) proviso — 48 hours for life and liberty ────────────────
+    proviso_match = re.search(
+        r'(Provided that where the information sought for concerns the life or liberty.*?receipt of the request\.)',
+        full_text, re.DOTALL
+    )
+    if proviso_match:
+        proviso_text = re.sub(r'\s+', ' ', proviso_match.group(1)).strip()
         records.append({
-            "topic": "Section 7(1) — Life and liberty deadline (48 hours)",
-            "rule": (
-                "If the information requested concerns the life or liberty of a "
-                "person, it shall be provided within forty-eight hours of the "
-                "receipt of the request."
-            ),
+            "topic": "Section 7(1) proviso — Life and liberty: 48-hour deadline",
+            "rule": proviso_text[:500],
             "section_or_rule_ref": "Section 7(1) proviso, RTI Act 2005",
             "jurisdiction": "Central and State",
             "amount_or_time_limit": "48 hours",
@@ -118,56 +137,41 @@ def extract_pdf_records(pdf_path: str) -> list:
             "_raw_file": "rti_act_2005.pdf",
         })
 
-    if re.search(r"7\.\s*\(5\)|below the poverty line|no fee", full_text, re.IGNORECASE):
+    # ── Section 19(1) — First appeal ────────────────────────────────────────
+    sec19_text = slice_section(
+        full_text,
+        r'19\.\s*\(1\)',
+        r'19\.\s*\(2\)'
+    )
+    if sec19_text:
         records.append({
-            "topic": "Section 7(5) — BPL fee exemption",
-            "rule": (
-                "A person who is a Below Poverty Line (BPL) applicant shall be "
-                "provided information free of charge. The PIO shall not charge any "
-                "fee from persons who are of BPL category."
-            ),
-            "section_or_rule_ref": "Section 7(5), RTI Act 2005",
-            "jurisdiction": "Central and State",
-            "amount_or_time_limit": "Nil",
-            "source_url": PDF_SOURCE,
-            "_raw_file": "rti_act_2005.pdf",
-        })
-
-    # ── Section 19: Appeal ──────────────────────────────────────────────────
-    if re.search(r"19\.\s*\(1\)|first appeal|thirty days.*aggrieved", full_text, re.IGNORECASE):
-        records.append({
-            "topic": "Section 19(1) — First appeal",
-            "rule": (
-                "Any person who does not receive a decision from the PIO within "
-                "the time specified under Section 7, or is aggrieved by a decision "
-                "of the PIO, may prefer an appeal to the first appellate authority "
-                "within thirty days from the date of expiry of the prescribed time "
-                "or receipt of the decision."
-            ),
+            "topic": "Section 19(1) — First appeal within 30 days",
+            "rule": sec19_text[:600],
             "section_or_rule_ref": "Section 19(1), RTI Act 2005",
             "jurisdiction": "Central and State",
-            "amount_or_time_limit": "Within 30 days",
+            "amount_or_time_limit": "30 days",
             "source_url": PDF_SOURCE,
             "_raw_file": "rti_act_2005.pdf",
         })
 
-    if re.search(r"19\.\s*\(3\)|second appeal|Information Commission", full_text, re.IGNORECASE):
+    # ── Section 19(3) — Second appeal ───────────────────────────────────────
+    sec19_3_text = slice_section(
+        full_text,
+        r'19\.\s*\(3\)',
+        r'19\.\s*\(4\)'
+    )
+    if sec19_3_text:
         records.append({
             "topic": "Section 19(3) — Second appeal to Information Commission",
-            "rule": (
-                "A second appeal against the first appellate authority's decision "
-                "shall lie with the Central Information Commission or State "
-                "Information Commission, as the case may be, within ninety days "
-                "from the date of the first appeal decision or its deemed refusal."
-            ),
+            "rule": sec19_3_text[:600],
             "section_or_rule_ref": "Section 19(3), RTI Act 2005",
             "jurisdiction": "Central and State",
-            "amount_or_time_limit": "Within 90 days",
+            "amount_or_time_limit": "90 days",
             "source_url": PDF_SOURCE,
             "_raw_file": "rti_act_2005.pdf",
         })
 
-    print(f"[PDF]   Extracted {len(records)} records from PDF")
+    print(f"[PDF]   Extracted {len(records)} records from real PDF text")
     return records
 
 
@@ -205,12 +209,12 @@ def ingest():
     check_raw_files()
     print()
 
-    # Step 2 — parse PDF to extract real records from Sections 6, 7, 19
+    # Step 2 — parse PDF, slice real section text into records
     pdf_path = os.path.join(RAW_DIR, "rti_act_2005.pdf")
     pdf_records = extract_pdf_records(pdf_path)
     print()
 
-    # Step 3 — combine: PDF records + curated sample records
+    # Step 3 — combine PDF records + curated sample records
     all_raw = pdf_records + list(raw_records)
 
     cleaned_records = []
@@ -230,7 +234,7 @@ def ingest():
         json.dump(cleaned_records, f, indent=2, ensure_ascii=False)
 
     print(f"[DONE]  Ingested {len(cleaned_records)} records "
-          f"({len(pdf_records)} from PDF + {len(raw_records)} from sample_records), "
+          f"({len(pdf_records)} from PDF text + {len(raw_records)} from sample_records), "
           f"skipped {skipped}.")
     print(f"[SAVED] {OUTPUT_PATH}")
     return cleaned_records

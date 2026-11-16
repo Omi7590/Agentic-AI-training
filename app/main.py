@@ -15,6 +15,7 @@ from app.smart_search import smart_search
 
 from app.llm import chat as llm_chat
 from app.vectorstore import semantic_search as vector_search
+from app.rag import ask as rag_ask
 
 
 app = FastAPI(
@@ -99,3 +100,25 @@ def semantic_search_endpoint(
     """Semantic search using sentence-transformer embeddings and Chroma."""
     results = vector_search(q, top_k=top_k)
     return {"query": q, "total": len(results), "results": results}
+
+
+class AskRequest(BaseModel):
+    question: str
+    top_k: int = 5
+
+
+class AskResponse(BaseModel):
+    question: str
+    answer: str
+    citations: list
+    chunks_used: int
+
+
+@app.post("/ask", response_model=AskResponse)
+def ask_endpoint(body: AskRequest):
+    """RAG endpoint: retrieves RTI rules from Chroma and answers with citations."""
+    try:
+        result = rag_ask(body.question, top_k=body.top_k)
+        return AskResponse(question=body.question, **result)
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=str(e))
