@@ -16,6 +16,8 @@ from app.smart_search import smart_search
 from app.llm import chat as llm_chat
 from app.vectorstore import semantic_search as vector_search
 from app.rag import ask as rag_ask
+from app.agent_loop import run_agent
+from app.graph import run_graph
 
 
 app = FastAPI(
@@ -121,4 +123,35 @@ def ask_endpoint(body: AskRequest):
         result = rag_ask(body.question, top_k=body.top_k)
         return AskResponse(question=body.question, **result)
     except ValueError as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class AgentRequest(BaseModel):
+    question: str
+    thread_id: str = "default"
+    use_langgraph: bool = True
+
+
+class AgentResponse(BaseModel):
+    question: str
+    answer: str
+    thread_id: str
+    pending_approval: bool = False
+
+
+@app.post("/agent", response_model=AgentResponse)
+def agent_endpoint(body: AgentRequest):
+    """
+    Agent endpoint: uses LangGraph agent (with memory + approval step) by default.
+    Set use_langgraph=false to use the hand-written agent loop instead.
+    """
+    try:
+        if body.use_langgraph:
+            result = run_graph(body.question, thread_id=body.thread_id)
+        else:
+            result = run_agent(body.question)
+            result["thread_id"] = body.thread_id
+            result["pending_approval"] = False
+        return AgentResponse(**result)
+    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
