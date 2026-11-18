@@ -11,3 +11,4 @@ pdfplumber
 langgraph
 langchain-core
 langchain-groq
+streamlit

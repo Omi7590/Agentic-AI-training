@@ -1,21 +1,22 @@
 # RTI Mitra - graph.py
 # Rebuilds the RTI Mitra agent in LangGraph with:
-#   - Memory (conversation history across turns)
-#   - One approval step (flags draft applications for user confirmation)
+#   - Memory (conversation history across turns via MemorySaver)
+#   - One real approval step using langgraph.types.interrupt()
+#     that pauses the graph before executing draft_rti tool
 # Powers POST /agent in app/main.py
 
 import os
-import json
 from typing import Annotated
 from typing_extensions import TypedDict
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
-from langchain_core.tools import tool, StructuredTool
+from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
+from langchain_core.tools import StructuredTool
 from pydantic import BaseModel as PydanticBase, Field
 from langgraph.graph import StateGraph, END
 from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.types import interrupt
 
 from app.rag import ask as rag_ask
 from app.tools import draft_rti_application as _draft_tool
@@ -25,24 +26,28 @@ load_dotenv()
 MODEL = "qwen/qwen3.8-27b"
 
 
-# ── LangGraph Tools ───────────────────────────────────────────────────────────
+# ── Tool schemas ──────────────────────────────────────────────────────────────
 
 class RagSearchInput(PydanticBase):
-    question: str = Field(description="The RTI question to search for in the rule database.")
+    question: str = Field(description="The RTI question to search in the rule database.")
+
 
 class DraftRtiInput(PydanticBase):
     applicant_name: str = Field(description="Full name of the RTI applicant.")
     applicant_address: str = Field(description="Address of the RTI applicant.")
     authority_name: str = Field(description="Name of the public authority / PIO.")
     authority_address: str = Field(description="Address of the public authority.")
-    information_sought: str = Field(description="The information being requested (max 150 words for Maharashtra).")
+    information_sought: str = Field(
+        description="The information being requested (max 150 words for Maharashtra)."
+    )
     jurisdiction: str = Field(default="Maharashtra", description="Central or Maharashtra.")
     is_bpl: bool = Field(default=False, description="True if applicant is BPL (fee exempt).")
-    via_apio: bool = Field(default=False, description="True if filing through APIO (+5 days deadline).")
+    via_apio: bool = Field(default=False, description="True if filing through APIO (+5 days).")
 
+
+# ── Tool implementations ──────────────────────────────────────────────────────
 
 def _rag_search(question: str) -> str:
-    """Search the RTI rule database and return a grounded answer with citations."""
     result = rag_ask(question, top_k=5)
     citations = [f"{c['title']} ({c['source']})" for c in result["citations"]]
     return f"{result['answer']}\n\nSources: {'; '.join(citations)}"
@@ -58,7 +63,6 @@ def _draft_rti(
     is_bpl: bool = False,
     via_apio: bool = False,
 ) -> str:
-    """Draft a complete RTI application with correct fee, word count and reply dates."""
     result = _draft_tool(
         applicant_name=applicant_name,
         applicant_address=applicant_address,
@@ -92,7 +96,6 @@ draft_rti = StructuredTool.from_function(
     args_schema=DraftRtiInput,
 )
 
-
 TOOLS = [rag_search, draft_rti]
 TOOL_MAP = {t.name: t for t in TOOLS}
 
@@ -101,8 +104,6 @@ TOOL_MAP = {t.name: t for t in TOOLS}
 
 class AgentState(TypedDict):
     messages: Annotated[list, add_messages]
-    pending_approval: bool
-    pending_tool_call: dict
 
 
 # ── LLM ───────────────────────────────────────────────────────────────────────
@@ -132,32 +133,42 @@ def agent_node(state: AgentState) -> AgentState:
     llm = get_llm()
     messages = [SYSTEM] + state["messages"]
     response = llm.invoke(messages)
-    return {"messages": [response], "pending_approval": False, "pending_tool_call": {}}
-
-
-def approval_node(state: AgentState) -> AgentState:
-    """
-    Approval step: if the LLM wants to call draft_rti,
-    flag it for approval before executing.
-    """
-    last = state["messages"][-1]
-    if hasattr(last, "tool_calls") and last.tool_calls:
-        for tc in last.tool_calls:
-            if tc["name"] == "draft_rti":
-                return {
-                    "messages": state["messages"],
-                    "pending_approval": True,
-                    "pending_tool_call": tc,
-                }
-    return {"messages": state["messages"], "pending_approval": False, "pending_tool_call": {}}
+    return {"messages": [response]}
 
 
 def tool_node(state: AgentState) -> AgentState:
-    """Execute all tool calls from the last LLM message."""
+    """
+    Execute tool calls. For draft_rti, uses interrupt() to pause
+    and ask the user for approval before executing.
+    """
     last = state["messages"][-1]
     tool_messages = []
+
     if hasattr(last, "tool_calls") and last.tool_calls:
         for tc in last.tool_calls:
+            # ── Approval step via interrupt() ─────────────────────────────
+            if tc["name"] == "draft_rti":
+                # interrupt() pauses graph execution and waits for human input.
+                # When resumed, the return value is the human's approval decision.
+                approval = interrupt({
+                    "action": "approval_required",
+                    "tool": "draft_rti",
+                    "message": (
+                        "RTI Mitra wants to draft an RTI application with these details: "
+                        + str(tc["args"])
+                        + " — reply 'yes' to confirm or 'no' to cancel."
+                    ),
+                })
+                if str(approval).strip().lower() not in ("yes", "y", "approve", "ok"):
+                    tool_messages.append(
+                        ToolMessage(
+                            content="Draft cancelled by user.",
+                            tool_call_id=tc["id"],
+                        )
+                    )
+                    continue
+
+            # ── Execute tool ──────────────────────────────────────────────
             tool_fn = TOOL_MAP.get(tc["name"])
             if tool_fn:
                 try:
@@ -166,10 +177,12 @@ def tool_node(state: AgentState) -> AgentState:
                     result = f"Tool error: {e}"
             else:
                 result = f"Unknown tool: {tc['name']}"
+
             tool_messages.append(
                 ToolMessage(content=str(result), tool_call_id=tc["id"])
             )
-    return {"messages": tool_messages, "pending_approval": False, "pending_tool_call": {}}
+
+    return {"messages": tool_messages}
 
 
 # ── Routing ───────────────────────────────────────────────────────────────────
@@ -177,15 +190,8 @@ def tool_node(state: AgentState) -> AgentState:
 def route_after_agent(state: AgentState) -> str:
     last = state["messages"][-1]
     if hasattr(last, "tool_calls") and last.tool_calls:
-        return "approval"
-    return END
-
-
-def route_after_approval(state: AgentState) -> str:
-    if state.get("pending_approval"):
-        # Auto-approve for API use; in real UI this would pause for user input
         return "tools"
-    return "tools"
+    return END
 
 
 # ── Build Graph ───────────────────────────────────────────────────────────────
@@ -195,18 +201,17 @@ def build_graph():
     builder = StateGraph(AgentState)
 
     builder.add_node("agent", agent_node)
-    builder.add_node("approval", approval_node)
     builder.add_node("tools", tool_node)
 
     builder.set_entry_point("agent")
-    builder.add_conditional_edges("agent", route_after_agent, {"approval": "approval", END: END})
-    builder.add_conditional_edges("approval", route_after_approval, {"tools": "tools"})
+    builder.add_conditional_edges(
+        "agent", route_after_agent, {"tools": "tools", END: END}
+    )
     builder.add_edge("tools", "agent")
 
     return builder.compile(checkpointer=memory)
 
 
-# Singleton graph instance
 _graph = None
 
 
@@ -217,39 +222,64 @@ def get_graph():
     return _graph
 
 
-def run_graph(question: str, thread_id: str = "default") -> dict:
+def run_graph(question: str, thread_id: str = "default", approval: str = None) -> dict:
     """
     Run the LangGraph agent with memory.
-    thread_id keeps conversation history across turns.
+
+    - First call: pass question only. If draft_rti is needed, graph pauses
+      at interrupt() and returns pending_approval=True.
+    - Second call: pass the same thread_id and approval='yes' to resume.
     """
     graph = get_graph()
     config = {"configurable": {"thread_id": thread_id}}
 
-    initial_state = {
-        "messages": [HumanMessage(content=question)],
-        "pending_approval": False,
-        "pending_tool_call": {},
-    }
+    if approval is not None:
+        # Resume after interrupt with the user's approval decision
+        final_state = graph.invoke(approval, config=config)
+    else:
+        initial_state = {"messages": [HumanMessage(content=question)]}
+        final_state = graph.invoke(initial_state, config=config)
 
-    final_state = graph.invoke(initial_state, config=config)
+    # Check if graph is interrupted (waiting for approval)
+    snapshot = graph.get_state(config)
+    is_interrupted = bool(snapshot.next)
+
+    if is_interrupted:
+        interrupt_data = None
+        for task in snapshot.tasks:
+            if hasattr(task, "interrupts") and task.interrupts:
+                interrupt_data = task.interrupts[0].value
+                break
+        return {
+            "question": question,
+            "answer": "Approval required before drafting the RTI application.",
+            "pending_approval": True,
+            "interrupt_data": interrupt_data,
+            "thread_id": thread_id,
+        }
+
     last_message = final_state["messages"][-1]
-
     return {
         "question": question,
         "answer": last_message.content if hasattr(last_message, "content") else str(last_message),
-        "pending_approval": final_state.get("pending_approval", False),
+        "pending_approval": False,
         "thread_id": thread_id,
     }
 
 
 if __name__ == "__main__":
-    print("Test 1: RTI fee question")
-    r = run_graph("What is the RTI fee in Maharashtra?", thread_id="test-1")
-    print(r["answer"][:300])
+    print("Test 1: RTI fee (no approval needed)")
+    r = run_graph("What is the RTI fee in Maharashtra?", thread_id="t1")
+    print("Pending:", r["pending_approval"])
+    print("Answer:", r["answer"][:300])
 
-    print("\nTest 2: Draft RTI")
+    print("\nTest 2: Draft RTI (triggers interrupt approval)")
     r = run_graph(
         "Draft an RTI to Kopargaon Panchayat Samiti for the 2026 road-repair work order.",
-        thread_id="test-2"
+        thread_id="t2",
     )
-    print(r["answer"][:300])
+    print("Pending approval:", r["pending_approval"])
+    if r["pending_approval"]:
+        print("Resuming with approval='yes'...")
+        r2 = run_graph("", thread_id="t2", approval="yes")
+        print("Answer:", r2["answer"][:300])

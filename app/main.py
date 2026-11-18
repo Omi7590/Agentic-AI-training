@@ -130,6 +130,7 @@ class AgentRequest(BaseModel):
     question: str
     thread_id: str = "default"
     use_langgraph: bool = True
+    approval: str = None
 
 
 class AgentResponse(BaseModel):
@@ -142,16 +143,23 @@ class AgentResponse(BaseModel):
 @app.post("/agent", response_model=AgentResponse)
 def agent_endpoint(body: AgentRequest):
     """
-    Agent endpoint: uses LangGraph agent (with memory + approval step) by default.
-    Set use_langgraph=false to use the hand-written agent loop instead.
+    Agent endpoint with LangGraph memory + interrupt approval step.
+    - First call: send question. If draft_rti is triggered, returns pending_approval=True.
+    - Second call: send same thread_id with approval='yes' to resume.
+    - Set use_langgraph=false to use the hand-written agent loop instead.
     """
     try:
         if body.use_langgraph:
-            result = run_graph(body.question, thread_id=body.thread_id)
+            result = run_graph(
+                body.question,
+                thread_id=body.thread_id,
+                approval=body.approval,
+            )
         else:
             result = run_agent(body.question)
             result["thread_id"] = body.thread_id
             result["pending_approval"] = False
-        return AgentResponse(**result)
+        return AgentResponse(**{k: v for k, v in result.items()
+                                if k in AgentResponse.model_fields})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

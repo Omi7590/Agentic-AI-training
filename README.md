@@ -24,7 +24,11 @@
 | Day 3 | Files, errors, dataclass, requests | ✅ Done |
 | Day 4 | FastAPI, pandas, TF-IDF smart search | ✅ Done |
 | Day 5 | How LLMs work, 10 user questions | ✅ Done |
+| Day 6 | Groq LLM wrapper, /chat, prompts | ✅ Done |
+| Day 7 | Chunking, embeddings, Chroma, /search/semantic | ✅ Done |
 | Day 8 | RAG /ask endpoint, eval set, 2 config runs | ✅ Done |
+| Day 9 | Agent tool, hand-written agent, LangGraph /agent | ✅ Done |
+| Day 10 | Streamlit chat UI with live RTI letter preview | ✅ Done |
 
 ---
 
@@ -101,6 +105,26 @@ Open http://127.0.0.1:8000/docs for the interactive Swagger UI.
 python analysis/explore.py
 ```
 
+### Day 10 — Streamlit UI
+
+Start the API first, then in a second terminal run:
+
+```powershell
+streamlit run ui/app.py
+```
+
+Opens at http://localhost:8501
+
+---
+
+## Streamlit UI — screenshot
+
+![RTI Mitra Streamlit UI](docs/screenshot.png)
+
+The UI has two panels:
+- **Left**: chat with RTI Mitra using `/ask` (RAG) or `/agent` (LangGraph). Every answer shows citations and thumbs up/down feedback buttons.
+- **Right**: live RTI letter preview — as you type the information sought, it fills the Annexure 'A' format, shows a 150-word counter, a fee box (Rs 10 or nil for BPL) and a reply due date computed with `datetime`.
+
 ---
 
 ## API endpoints
@@ -111,7 +135,11 @@ python analysis/explore.py
 | GET | /records?limit= | List records (default 10, max 100) |
 | GET | /records/{id} | Get one record by ID (404 if missing) |
 | GET | /search?q= | TF-IDF semantic search |
+| GET | /search/semantic?q= | Semantic search via Chroma |
 | POST | /questions | Ask a plain-language RTI question |
+| POST | /chat | LLM answer with confidence and follow_up |
+| POST | /ask | RAG answer with citations |
+| POST | /agent | LangGraph agent with memory and approval step |
 
 ---
 
