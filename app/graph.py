@@ -7,16 +7,18 @@
 
 import os
 from typing import Annotated
-from typing_extensions import TypedDict
+
 from dotenv import load_dotenv
-from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from langchain_core.tools import StructuredTool
-from pydantic import BaseModel as PydanticBase, Field
-from langgraph.graph import StateGraph, END
-from langgraph.graph.message import add_messages
+from langchain_groq import ChatGroq
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import END, StateGraph
+from langgraph.graph.message import add_messages
 from langgraph.types import interrupt
+from pydantic import BaseModel as PydanticBase
+from pydantic import Field
+from typing_extensions import TypedDict
 
 from app.rag import ask as rag_ask
 from app.tools import draft_rti_application as _draft_tool
@@ -173,7 +175,7 @@ def tool_node(state: AgentState) -> AgentState:
             if tool_fn:
                 try:
                     result = tool_fn.invoke(tc["args"])
-                except Exception as e:
+                except (ValueError, RuntimeError, TypeError) as e:
                     result = f"Tool error: {e}"
             else:
                 result = f"Unknown tool: {tc['name']}"
@@ -222,7 +224,7 @@ def get_graph():
     return _graph
 
 
-def run_graph(question: str, thread_id: str = "default", approval: str = None) -> dict:
+def run_graph(question: str, thread_id: str = "default", approval: str | None = None) -> dict:
     """
     Run the LangGraph agent with memory.
 

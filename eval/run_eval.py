@@ -28,7 +28,6 @@ def run_eval():
         eval_set = json.load(f)
 
     configs = ["config_a", "config_b"]
-    config_labels = {"config_a": "Config A (top_k=3)", "config_b": "Config B (top_k=5)"}
     scores = {"config_a": 0, "config_b": 0}
     rows = []
 
@@ -74,8 +73,8 @@ def run_eval():
     lines.append("|----|----------|-----------|---------|----------|\n")
     for r in rows:
         lines.append(f"| {r['id']} | {r['question']} | {'Yes' if r['answerable'] else 'No'} | {r['config_a']} | {r['config_b']} |\n")
-    lines.append(f"\n## Scores\n\n")
-    lines.append(f"| Config | Score |\n|--------|-------|\n")
+    lines.append("\n## Scores\n\n")
+    lines.append("| Config | Score |\n|--------|-------|\n")
     lines.append(f"| Config A (top_k=3) | {scores['config_a']}/{total} |\n")
     lines.append(f"| Config B (top_k=5) | {scores['config_b']}/{total} |\n\n")
     lines.append(f"## Winner: {winner}\n\n")

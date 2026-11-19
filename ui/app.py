@@ -54,7 +54,7 @@ def ask_api(question: str, use_agent: bool = False) -> dict:
         return resp.json()
     except requests.exceptions.ConnectionError:
         return {"answer": "⚠️ Cannot connect to the RTI Mitra API. Make sure `uvicorn app.main:app --reload` is running.", "citations": []}
-    except Exception as e:
+    except (ValueError, RuntimeError) as e:
         return {"answer": f"⚠️ Error: {e}", "citations": []}
 
 
@@ -76,7 +76,7 @@ def word_count(text: str) -> int:
 
 def reply_due_date(via_apio: bool = False) -> str:
     days = 35 if via_apio else 30
-    return (datetime.today() + timedelta(days=days)).strftime("%d %B %Y")
+    return (datetime.now() + timedelta(days=days)).strftime("%d %B %Y")
 
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
@@ -217,7 +217,7 @@ with preview_col:
     auth = authority or "[Authority Name]"
     auth_addr = authority_address or "[Authority Address]"
     info = information_sought or "[Describe the information you need]"
-    today = datetime.today().strftime("%d %B %Y")
+    today = datetime.now().strftime("%d %B %Y")
     days = 35 if via_apio else 30
     fee_line = "Nil (BPL — attaching BPL certificate)" if is_bpl else "Rs 10"
     via_note = " (submitted via APIO)" if via_apio else ""

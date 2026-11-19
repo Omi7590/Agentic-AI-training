@@ -3,8 +3,9 @@
 # Reads GROQ_API_KEY from .env (never committed).
 
 import os
-from groq import Groq
+
 from dotenv import load_dotenv
+from groq import Groq
 
 load_dotenv()
 
@@ -20,7 +21,7 @@ def load_system_prompt() -> str:
     with open(SYSTEM_PROMPT_PATH, "r", encoding="utf-8") as f:
         return f.read()
 
-def chat(user_message: str, system_prompt: str = None) -> dict:
+def chat(user_message: str, system_prompt: str | None = None) -> dict:
     """
     Send a message to the Groq LLM and return a structured response.
     Returns: { answer, confidence, follow_up }

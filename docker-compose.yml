@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: rti_mitra_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./prompts:/app/prompts
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  ui:
+    build: .
+    container_name: rti_mitra_ui
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - RTI_API_BASE=http://api:8000
+    volumes:
+      - ./data:/app/data
+      - ./ui:/app/ui
+    depends_on:
+      - api
+    command: ["streamlit", "run", "ui/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    restart: unless-stopped

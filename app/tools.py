@@ -18,7 +18,7 @@ def draft_rti_application(
     information_sought: str,
     jurisdiction: str = "Maharashtra",
     is_bpl: bool = False,
-    application_date: str = None,
+    application_date: str | None = None,
     via_apio: bool = False,
 ) -> dict:
     """
@@ -37,9 +37,9 @@ def draft_rti_application(
         try:
             app_date = datetime.strptime(application_date, "%Y-%m-%d")
         except ValueError:
-            app_date = datetime.today()
+            app_date = datetime.now()
     else:
-        app_date = datetime.today()
+        app_date = datetime.now()
 
     # Reply deadline: 30 days (35 via APIO)
     reply_days = 35 if via_apio else 30

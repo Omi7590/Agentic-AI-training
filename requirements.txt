@@ -12,3 +12,7 @@ langgraph
 langchain-core
 langchain-groq
 streamlit
+pytest
+pytest-timeout
+httpx
+ruff

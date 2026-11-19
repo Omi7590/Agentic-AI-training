@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Environment variables (never in image)
+.env
+
+# Git
+.git/
+.gitignore
+
+# Data — raw files are large and re-downloadable
+data/raw/
+
+# Chroma vector store — rebuilt at runtime
+data/chroma/
+
+# Test cache
+.pytest_cache/
+.ruff_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Feedback log (runtime file)
+ui/feedback.jsonl

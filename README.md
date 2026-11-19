@@ -143,6 +143,27 @@ The UI has two panels:
 
 ---
 
+## Run with Docker
+
+Make sure Docker is installed and running, then:
+
+```bash
+docker compose up --build
+```
+
+This starts two containers:
+- **API** at http://localhost:8000 — FastAPI service (`/health`, `/ask`, `/agent`, etc.)
+- **UI** at http://localhost:8501 — Streamlit chat with live RTI letter preview
+
+To stop:
+```bash
+docker compose down
+```
+
+The `.env` file must exist with your `GROQ_API_KEY` before running.
+
+---
+
 ## RAG Evaluation — Config winner
 
 | Config | top_k | Score |

@@ -10,15 +10,14 @@
 
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
-from app.records import load_records, get_by_id
-from app.smart_search import smart_search
 
-from app.llm import chat as llm_chat
-from app.vectorstore import semantic_search as vector_search
-from app.rag import ask as rag_ask
 from app.agent_loop import run_agent
 from app.graph import run_graph
-
+from app.llm import chat as llm_chat
+from app.rag import ask as rag_ask
+from app.records import get_by_id, load_records
+from app.smart_search import smart_search
+from app.vectorstore import semantic_search as vector_search
 
 app = FastAPI(
     title="RTI Mitra API",
@@ -161,5 +160,5 @@ def agent_endpoint(body: AgentRequest):
             result["pending_approval"] = False
         return AgentResponse(**{k: v for k, v in result.items()
                                 if k in AgentResponse.model_fields})
-    except Exception as e:
+    except (ValueError, RuntimeError, TypeError) as e:
         raise HTTPException(status_code=500, detail=str(e))
