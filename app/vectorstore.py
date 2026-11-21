@@ -1,13 +1,16 @@
 # RTI Mitra - vectorstore.py
 # Indexes all RTI chunks into a persistent Chroma collection.
+# Uses Chroma's built-in default embedding function (onnxruntime based)
+# so sentence-transformers/torch are NOT loaded at startup — keeps
+# memory low enough for Render free tier (512 MB).
 # Powers GET /search/semantic?q=
 
 import os
-import chromadb
-from sentence_transformers import SentenceTransformer
-from app.chunking import chunk_records
 
-MODEL_NAME = "all-MiniLM-L6-v2"
+import chromadb
+from chromadb.utils import embedding_functions
+
+from app.chunking import chunk_records
 
 CHROMA_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -16,28 +19,23 @@ CHROMA_DIR = os.path.join(
 
 COLLECTION_NAME = "rti_mitra"
 
-_model = None
 _collection = None
-
-
-def get_model() -> SentenceTransformer:
-    global _model
-    if _model is None:
-        _model = SentenceTransformer(MODEL_NAME)
-    return _model
 
 
 def get_collection():
     global _collection
     if _collection is None:
         client = chromadb.PersistentClient(path=CHROMA_DIR)
-        _collection = client.get_or_create_collection(COLLECTION_NAME)
+        ef = embedding_functions.DefaultEmbeddingFunction()
+        _collection = client.get_or_create_collection(
+            COLLECTION_NAME,
+            embedding_function=ef,
+        )
     return _collection
 
 
 def build_index():
     """Index all chunks into Chroma. Safe to call multiple times (upsert)."""
-    model = get_model()
     collection = get_collection()
     chunks = chunk_records()
 
@@ -54,12 +52,11 @@ def build_index():
         }
         for c in chunks
     ]
-    embeddings = model.encode(texts).tolist()
 
+    # Chroma's default embedding function handles encoding automatically
     collection.upsert(
         ids=ids,
         documents=texts,
-        embeddings=embeddings,
         metadatas=metadatas,
     )
 
@@ -69,13 +66,10 @@ def build_index():
 
 def semantic_search(query: str, top_k: int = 5) -> list:
     """Search the Chroma collection with a query string."""
-    model = get_model()
     collection = get_collection()
 
-    query_embedding = model.encode([query]).tolist()
-
     results = collection.query(
-        query_embeddings=query_embedding,
+        query_texts=[query],
         n_results=top_k,
         include=["documents", "metadatas", "distances"],
     )

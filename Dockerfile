@@ -1,22 +1,25 @@
 # RTI Mitra - Dockerfile
 # Builds a single image that runs the FastAPI API.
-# The Streamlit UI is a separate service in docker-compose.yml.
 
 FROM python:3.11-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies needed for building Python packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    gcc \
+    g++ \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for layer caching
-COPY requirements.txt .
+COPY requirements-deploy.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements-deploy.txt
 
 # Copy the rest of the project
 COPY . .

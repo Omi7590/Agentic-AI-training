@@ -1,5 +1,7 @@
 # RTI Mitra
 
+[![RTI Mitra CI](https://github.com/Omi7590/Agentic-AI-training/actions/workflows/ci.yml/badge.svg)](https://github.com/Omi7590/Agentic-AI-training/actions/workflows/ci.yml)
+
 **RTI Mitra** explains the Right to Information (RTI) Act in simple language and helps draft a correct RTI application for a Maharashtra or central public office, with the right fee, the 150-word limit and the reply deadline.
 
 ---
@@ -29,6 +31,8 @@
 | Day 8 | RAG /ask endpoint, eval set, 2 config runs | ✅ Done |
 | Day 9 | Agent tool, hand-written agent, LangGraph /agent | ✅ Done |
 | Day 10 | Streamlit chat UI with live RTI letter preview | ✅ Done |
+| Day 11 | Tests (25 pytest), ruff clean, Docker | ✅ Done |
+| Day 12 | GitHub Actions CI, deploy on Render | ✅ Done |
 
 ---
 
@@ -140,6 +144,16 @@ The UI has two panels:
 | POST | /chat | LLM answer with confidence and follow_up |
 | POST | /ask | RAG answer with citations |
 | POST | /agent | LangGraph agent with memory and approval step |
+
+---
+
+## Live deployment
+
+- **API**: https://rti-mitra.onrender.com
+- **Health check**: https://rti-mitra.onrender.com/health
+- **API docs**: https://rti-mitra.onrender.com/docs
+
+> Replace the URL above with your actual Render URL after deployment.
 
 ---
 

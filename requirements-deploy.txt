@@ -1,0 +1,17 @@
+# Deployment requirements — used by Dockerfile and Render
+# sentence-transformers and torch are excluded (too heavy for free tier)
+# vectorstore.py uses Chroma's built-in onnxruntime embeddings instead
+
+fastapi==0.115.12
+uvicorn==0.34.0
+requests==2.32.3
+pandas==2.2.3
+scikit-learn==1.6.1
+groq==0.13.0
+python-dotenv==1.0.1
+chromadb
+pdfplumber
+langgraph
+langchain-core
+langchain-groq
+streamlit
