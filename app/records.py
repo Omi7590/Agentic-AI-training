@@ -1,10 +1,12 @@
 #RTI Mitra - Record Module
 
+import os
 import sys
-import os 
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from data.sample_records import records as _records
+
 
 def load_records():
     """Return all RTI relu records."""

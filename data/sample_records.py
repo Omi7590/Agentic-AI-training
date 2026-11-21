@@ -175,3 +175,21 @@ def search_by_keyword(keyword):
     results = [r for r in records if keyword in r['topic'].lower() or keyword in r['rule'].lower()]
 
     return results
+
+def count_by_category():
+    counts = {}
+    for r in records:
+        j = r['jurisdiction']
+        counts[j] = counts.get(j, 0) + 1
+    return counts
+
+if __name__ == "__main__":
+    print_all()
+
+    print("=== Search: 'fee' ===")
+    for r in search_by_keyword("fee"):
+        print(f" - {r['topic']} ({r['jurisdiction']})")
+
+    print("\n=== Count by jurisdiction ===")
+    for cat, count in count_by_category().items():
+        print(f" {cat}: {count} records")

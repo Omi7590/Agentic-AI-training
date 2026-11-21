@@ -3,8 +3,10 @@
 # Powers GET /search/semantic?q=
 
 import os
+
 import chromadb
 from sentence_transformers import SentenceTransformer
+
 from app.chunking import chunk_records
 
 MODEL_NAME = "all-MiniLM-L6-v2"

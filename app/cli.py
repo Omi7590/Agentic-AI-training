@@ -1,7 +1,8 @@
 #   RTI Mitra = CLI entry point
 # uses app/records.py to load, search and count RTI rule Records.
 
-from app.records import load_records, search, count_by, get_by_id
+from app.records import count_by, get_by_id, load_records, search
+
 
 def print_record (i, r):
     print(f"\n{i}. [{r['jurisdiction']}] {r['topic']}")

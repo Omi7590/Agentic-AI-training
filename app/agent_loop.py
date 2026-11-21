@@ -5,10 +5,12 @@
 # The agent decides which tool to call based on the user question,
 # calls it, and returns a final answer with citations.
 
-import os
 import json
+import os
+
 from dotenv import load_dotenv
 from groq import Groq
+
 from app.rag import ask as rag_ask
 from app.tools import draft_rti_application
 

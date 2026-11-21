@@ -4,7 +4,9 @@
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
 from app.records import load_records
+
 
 def _build_corpus(records):
     """Combine topic and rule text into one string per record."""

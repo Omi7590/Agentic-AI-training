@@ -4,9 +4,11 @@
 # Records hits in eval/search_results.md
 
 import os
+
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+
 from app.chunking import chunk_records
 
 MODEL_NAME = "all-MiniLM-L6-v2"

@@ -3,6 +3,7 @@
 # Uses requests with timeouts and full error handling.
 
 import os
+
 import requests
 
 RAW_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),

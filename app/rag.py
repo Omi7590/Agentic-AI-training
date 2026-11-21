@@ -5,8 +5,10 @@
 # Must say "I don't know" for questions about live/case data (e.g. Q6).
 
 import os
+
 from dotenv import load_dotenv
 from groq import Groq
+
 from app.vectorstore import semantic_search
 
 load_dotenv()
