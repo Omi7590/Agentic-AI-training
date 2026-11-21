@@ -53,9 +53,14 @@ def ask_api(question: str, use_agent: bool = False) -> dict:
         resp.raise_for_status()
         return resp.json()
     except requests.exceptions.ConnectionError:
-        return {"answer": "⚠️ Cannot connect to the RTI Mitra API. Make sure `uvicorn app.main:app --reload` is running.", "citations": []}
+        return {
+            "answer": "⚠️ Cannot connect to the RTI Mitra API. Make sure the API is running.",
+            "citations": [],
+        }
     except (ValueError, RuntimeError) as e:
         return {"answer": f"⚠️ Error: {e}", "citations": []}
+    except requests.exceptions.RequestException as e:
+        return {"answer": f"⚠️ API error: {e}", "citations": []}
 
 
 def save_feedback(question: str, answer: str, thumb: str):
@@ -81,7 +86,10 @@ def reply_due_date(via_apio: bool = False) -> str:
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg", width=60)
+    st.image(
+        "https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg",
+        width=60,
+    )
     st.title("RTI Mitra ⚖️")
     st.caption("Right to Information Act 2005 — Maharashtra & Central")
 
@@ -103,69 +111,63 @@ with st.sidebar:
         st.rerun()
 
 
-# ── Main layout: Chat + Live RTI Preview ──────────────────────────────────────
+# ── Main layout: Chat (left) + Live RTI Preview (right) ──────────────────────
 chat_col, preview_col = st.columns([3, 2])
 
-# ── Chat column ───────────────────────────────────────────────────────────────
+# ── Chat column — messages only ───────────────────────────────────────────────
 with chat_col:
     st.header("💬 Chat with RTI Mitra")
 
-    # Display message history
-    for i, msg in enumerate(st.session_state.messages):
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
+    # Scrollable message history container
+    messages_container = st.container(height=500)
+    with messages_container:
+        for i, msg in enumerate(st.session_state.messages):
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
 
-            # Show citations for assistant messages
-            if msg["role"] == "assistant" and msg.get("citations"):
-                with st.expander("📚 Citations"):
-                    for c in msg["citations"]:
-                        st.markdown(f"- **{c.get('title', 'Source')}** — [{c.get('source', '')}]({c.get('source', '')})")
+                if msg["role"] == "assistant" and msg.get("citations"):
+                    with st.expander("📚 Citations"):
+                        for c in msg["citations"]:
+                            st.markdown(
+                                f"- **{c.get('title', 'Source')}** — "
+                                f"[{c.get('source', '')}]({c.get('source', '')})"
+                            )
 
-            # Thumbs up/down for assistant messages
-            if msg["role"] == "assistant":
-                col1, col2, _ = st.columns([1, 1, 8])
-                with col1:
-                    if st.button("👍", key=f"up_{i}"):
-                        save_feedback(
-                            st.session_state.messages[i - 1]["content"] if i > 0 else "",
-                            msg["content"],
-                            "thumbs_up",
-                        )
-                        st.toast("Thanks for the feedback! 👍")
-                with col2:
-                    if st.button("👎", key=f"down_{i}"):
-                        save_feedback(
-                            st.session_state.messages[i - 1]["content"] if i > 0 else "",
-                            msg["content"],
-                            "thumbs_down",
-                        )
-                        st.toast("Thanks for the feedback! 👎")
+                if msg["role"] == "assistant":
+                    col1, col2, _ = st.columns([1, 1, 8])
+                    with col1:
+                        if st.button("👍", key=f"up_{i}"):
+                            save_feedback(
+                                st.session_state.messages[i - 1]["content"] if i > 0 else "",
+                                msg["content"],
+                                "thumbs_up",
+                            )
+                            st.toast("Thanks! 👍")
+                    with col2:
+                        if st.button("👎", key=f"down_{i}"):
+                            save_feedback(
+                                st.session_state.messages[i - 1]["content"] if i > 0 else "",
+                                msg["content"],
+                                "thumbs_down",
+                            )
+                            st.toast("Thanks! 👎")
 
-    # Chat input
-    if prompt := st.chat_input("Ask an RTI question..."):
+    # Chat input pinned below the message container
+    if prompt := st.chat_input("Ask an RTI question...", key="chat_input"):
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
 
-        with st.chat_message("assistant"):
-            with st.spinner("Searching RTI rules..."):
-                result = ask_api(prompt, use_agent=use_agent)
+        with st.spinner("Searching RTI rules..."):
+            result = ask_api(prompt, use_agent=use_agent)
 
-            answer = result.get("answer", "No answer returned.")
-            citations = result.get("citations", [])
-
-            st.markdown(answer)
-
-            if citations:
-                with st.expander("📚 Citations"):
-                    for c in citations:
-                        st.markdown(f"- **{c.get('title', 'Source')}** — [{c.get('source', '')}]({c.get('source', '')})")
+        answer = result.get("answer", "No answer returned.")
+        citations = result.get("citations", [])
 
         st.session_state.messages.append({
             "role": "assistant",
             "content": answer,
             "citations": citations,
         })
+        st.rerun()
 
 
 # ── Live RTI Letter Preview (Signature feature) ───────────────────────────────
@@ -174,9 +176,15 @@ with preview_col:
     st.caption("Fill in the details — the letter updates as you type.")
 
     applicant_name = st.text_input("Your name", placeholder="Om Jarhad")
-    applicant_address = st.text_input("Your address", placeholder="Kopargaon, Dist. Ahmednagar, Maharashtra")
-    authority = st.text_input("Authority (PIO office)", placeholder="Kopargaon Panchayat Samiti")
-    authority_address = st.text_input("Authority address", placeholder="Kopargaon, Dist. Ahmednagar - 423601")
+    applicant_address = st.text_input(
+        "Your address", placeholder="Kopargaon, Dist. Ahmednagar, Maharashtra"
+    )
+    authority = st.text_input(
+        "Authority (PIO office)", placeholder="Kopargaon Panchayat Samiti"
+    )
+    authority_address = st.text_input(
+        "Authority address", placeholder="Kopargaon, Dist. Ahmednagar - 423601"
+    )
 
     information_sought = st.text_area(
         "Information sought (max 150 words for Maharashtra)",
@@ -190,12 +198,11 @@ with preview_col:
     with col_apio:
         via_apio = st.checkbox("Filing via APIO (+5 days)")
 
-    # ── Live counters ─────────────────────────────────────────────────────────
+    # Live counters
     wc = word_count(information_sought)
     fee = "**Nil** (BPL)" if is_bpl else "**Rs 10**"
     reply_date = reply_due_date(via_apio)
 
-    # Word counter with colour
     if wc == 0:
         st.caption("Words: 0 / 150")
     elif wc <= 150:
@@ -211,7 +218,7 @@ with preview_col:
 
     st.divider()
 
-    # ── Annexure A live letter ────────────────────────────────────────────────
+    # Annexure A live letter
     name = applicant_name or "[Your Name]"
     addr = applicant_address or "[Your Address]"
     auth = authority or "[Authority Name]"
