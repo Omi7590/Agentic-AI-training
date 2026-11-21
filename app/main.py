@@ -25,6 +25,19 @@ app = FastAPI(
     version="0.1.0",
 )
 
+
+@app.on_event("startup")
+def startup_event():
+    """Build Chroma index on startup if it doesn't exist yet."""
+    from app.vectorstore import build_index, get_collection
+    collection = get_collection()
+    if collection.count() == 0:
+        print("[STARTUP] Chroma collection is empty — building index...")
+        build_index()
+        print("[STARTUP] Index built successfully.")
+    else:
+        print(f"[STARTUP] Chroma collection has {collection.count()} chunks — skipping rebuild.")
+
 # ── request / response models ──────────────────────────────────────────────────
 
 class QuestionRequest(BaseModel):
