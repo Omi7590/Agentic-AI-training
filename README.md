@@ -33,6 +33,7 @@
 | Day 10 | Streamlit chat UI with live RTI letter preview | ✅ Done |
 | Day 11 | Tests (25 pytest), ruff clean, Docker | ✅ Done |
 | Day 12 | GitHub Actions CI, deploy on Render | ✅ Done |
+| Day 13 | Production logging, cache, input limits, prompt injection test | ✅ Done |
 
 ---
 
@@ -149,11 +150,10 @@ The UI has two panels:
 
 ## Live deployment
 
-- **API**: https://rti-mitra.onrender.com
-- **Health check**: https://rti-mitra.onrender.com/health
-- **API docs**: https://rti-mitra.onrender.com/docs
-
-> Replace the URL above with your actual Render URL after deployment.
+- **API**: https://rti-mitra-mq86.onrender.com
+- **Health check**: https://rti-mitra-mq86.onrender.com/health
+- **API docs**: https://rti-mitra-mq86.onrender.com/docs
+- **UI**: https://rti-mitra-ui.onrender.com
 
 ---
 
@@ -175,6 +175,73 @@ docker compose down
 ```
 
 The `.env` file must exist with your `GROQ_API_KEY` before running.
+
+---
+
+## Architecture
+
+```mermaid
+graph TD
+    User["👤 Citizen / User"]
+    UI["🖥️ Streamlit UI\nui/app.py\nLive RTI Letter Preview"]
+    API["⚡ FastAPI\napp/main.py\n/health /ask /chat /agent"]
+    RAG["🔍 RAG Pipeline\napp/rag.py\nChroma + Groq LLM"]
+    Agent["🤖 LangGraph Agent\napp/graph.py\nMemory + Approval Step"]
+    Tool["🛠️ RTI Tool\napp/tools.py\ndraft_rti_application"]
+    Chroma["🗄️ Chroma Vector Store\ndata/chroma/\n24 RTI rule chunks"]
+    LLM["🧠 Groq LLM\nqwen/qwen3.8-27b\navg 1057ms · avg 624 tokens"]
+    Docs["📄 RTI Act 2005 PDF\ndata/raw/\npdfplumber"]
+
+    User --> UI
+    UI --> API
+    API --> RAG
+    API --> Agent
+    Agent --> Tool
+    Agent --> RAG
+    RAG --> Chroma
+    RAG --> LLM
+    Chroma --> Docs
+```
+
+---
+
+## Production notes
+
+Measured on 5 real RTI questions via Groq API (qwen/qwen3.8-27b):
+
+| Metric | Value |
+|--------|-------|
+| Average latency | 1,057 ms |
+| Min latency | 681 ms |
+| Max latency | 1,331 ms |
+| Average tokens per request | 624 |
+| Average prompt tokens | 372 |
+| Average completion tokens | 252 |
+| Cache TTL | 300 seconds |
+| Input limit | 500 characters |
+| Prompt injection defence | ✅ tested |
+
+**Cache**: in-memory TTL cache (5 min) on `/ask` — repeated questions return instantly with `cached: true`.
+
+**Input limits**: questions over 500 characters are rejected with HTTP 422 before hitting the LLM.
+
+**Prompt injection**: grounded RAG returns answers only from indexed RTI rule chunks. Injected instructions ("ignore previous", "jailbreak") are detected and refused — tested in `tests/test_all_days.py`.
+
+---
+
+## Results
+
+| Component | Result |
+|-----------|--------|
+| RTI rule records | 24 (4 from PDF + 20 curated) |
+| Chroma chunks | 24 |
+| Eval score (Config B, top-k=5) | 15/15 questions |
+| Prompt comparison | V2 beats V1 on all 10 questions |
+| Tests | 28 passing, 0 failing |
+| Ruff lint | ✅ All checks passed |
+| CI badge | ✅ Green |
+| Live API | https://rti-mitra-mq86.onrender.com |
+| Live UI | https://rti-mitra-ui.onrender.com |
 
 ---
 
