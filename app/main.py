@@ -1,20 +1,3 @@
-# RTI Mitra - main.py
-# FastAPI service exposing RTI rule records.
-#
-# Routes:
-#   GET  /health
-#   GET  /records?limit=
-#   GET  /records/{id}
-#   GET  /search?q=
-#   POST /questions
-#   POST /chat
-#   POST /ask
-#   POST /agent
-#
-# Production features (Day 13):
-#   - Latency + token logging middleware
-#   - Simple in-memory TTL cache for /ask
-#   - Input length limits (max 500 chars)
 
 import hashlib
 import logging
