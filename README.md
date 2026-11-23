@@ -150,10 +150,10 @@ The UI has two panels:
 
 ## Live deployment
 
-- **API**: https://rti-mitra-mq86.onrender.com
-- **Health check**: https://rti-mitra-mq86.onrender.com/health
-- **API docs**: https://rti-mitra-mq86.onrender.com/docs
-- **UI**: https://rti-mitra-ui.onrender.com
+- **API**: https://rti-mitra-backend.onrender.com
+- **Health check**: https://rti-mitra-backend.onrender.com/health
+- **API docs**: https://rti-mitra-backend.onrender.com/docs
+- **UI**: https://rti-mitra-ui.onrender.com/
 
 ---
 
