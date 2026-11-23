@@ -7,9 +7,21 @@
 #   GET  /records/{id}
 #   GET  /search?q=
 #   POST /questions
+#   POST /chat
+#   POST /ask
+#   POST /agent
+#
+# Production features (Day 13):
+#   - Latency + token logging middleware
+#   - Simple in-memory TTL cache for /ask
+#   - Input length limits (max 500 chars)
 
-from fastapi import FastAPI, HTTPException, Query
-from pydantic import BaseModel
+import hashlib
+import logging
+import time
+
+from fastapi import FastAPI, HTTPException, Query, Request
+from pydantic import BaseModel, field_validator
 
 from app.agent_loop import run_agent
 from app.graph import run_graph
@@ -19,6 +31,32 @@ from app.records import get_by_id, load_records
 from app.smart_search import smart_search
 from app.vectorstore import semantic_search as vector_search
 
+# ── Logging setup ─────────────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+logger = logging.getLogger("rti_mitra")
+
+# ── Simple in-memory cache (question → answer) ────────────────────────────────
+_cache: dict = {}
+CACHE_TTL_SECONDS = 300  # 5 minutes
+
+
+def cache_get(key: str):
+    entry = _cache.get(key)
+    if entry and (time.time() - entry["ts"]) < CACHE_TTL_SECONDS:
+        return entry["value"]
+    return None
+
+
+def cache_set(key: str, value: dict):
+    _cache[key] = {"value": value, "ts": time.time()}
+
+
+# ── Input limit ───────────────────────────────────────────────────────────────
+MAX_INPUT_LENGTH = 500
+
 app = FastAPI(
     title="RTI Mitra API",
     description="Explains the RTI Act and helps draft RTI applications.",
@@ -26,17 +64,21 @@ app = FastAPI(
 )
 
 
-@app.on_event("startup")
-def startup_event():
-    """Build Chroma index on startup if it doesn't exist yet."""
-    from app.vectorstore import build_index, get_collection
-    collection = get_collection()
-    if collection.count() == 0:
-        print("[STARTUP] Chroma collection is empty — building index...")
-        build_index()
-        print("[STARTUP] Index built successfully.")
-    else:
-        print(f"[STARTUP] Chroma collection has {collection.count()} chunks — skipping rebuild.")
+# ── Latency + token logging middleware ────────────────────────────────────────
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start = time.time()
+    response = await call_next(request)
+    latency_ms = round((time.time() - start) * 1000)
+    logger.info(
+        "method=%s path=%s status=%d latency_ms=%d",
+        request.method,
+        request.url.path,
+        response.status_code,
+        latency_ms,
+    )
+    response.headers["X-Latency-Ms"] = str(latency_ms)
+    return response
 
 # ── request / response models ──────────────────────────────────────────────────
 
@@ -91,6 +133,15 @@ def ask_question(body: QuestionRequest):
 class ChatRequest(BaseModel):
     message: str
 
+    @field_validator("message")
+    @classmethod
+    def check_length(cls, v: str) -> str:
+        if len(v) > MAX_INPUT_LENGTH:
+            raise ValueError(
+                f"Input too long ({len(v)} chars). Max {MAX_INPUT_LENGTH} chars allowed."
+            )
+        return v
+
 class ChatResponse(BaseModel):
     answer: str
     confidence: str
@@ -120,20 +171,45 @@ class AskRequest(BaseModel):
     question: str
     top_k: int = 5
 
+    @field_validator("question")
+    @classmethod
+    def check_length(cls, v: str) -> str:
+        if len(v) > MAX_INPUT_LENGTH:
+            raise ValueError(
+                f"Input too long ({len(v)} chars). Max {MAX_INPUT_LENGTH} chars allowed."
+            )
+        return v
+
 
 class AskResponse(BaseModel):
     question: str
     answer: str
     citations: list
     chunks_used: int
+    cached: bool = False
 
 
 @app.post("/ask", response_model=AskResponse)
 def ask_endpoint(body: AskRequest):
     """RAG endpoint: retrieves RTI rules from Chroma and answers with citations."""
+    cache_key = hashlib.md5(body.question.encode()).hexdigest()
+    cached = cache_get(cache_key)
+    if cached:
+        logger.info("cache_hit question=%s", body.question[:60])
+        return AskResponse(question=body.question, cached=True, **cached)
+
     try:
+        t0 = time.time()
         result = rag_ask(body.question, top_k=body.top_k)
-        return AskResponse(question=body.question, **result)
+        latency_ms = round((time.time() - t0) * 1000)
+        logger.info(
+            "ask latency_ms=%d chunks_used=%d question=%s",
+            latency_ms,
+            result.get("chunks_used", 0),
+            body.question[:60],
+        )
+        cache_set(cache_key, result)
+        return AskResponse(question=body.question, cached=False, **result)
     except ValueError as e:
         raise HTTPException(status_code=500, detail=str(e))
 
