@@ -45,31 +45,44 @@ def build_context(chunks: list) -> str:
 def ask(question: str, top_k: int = 5) -> dict:
     """
     Retrieve top_k chunks from Chroma, send to LLM with RAG prompt.
+    Falls back to system-prompt-only mode if Chroma index is empty.
     Returns: { answer, citations, chunks_used }
     """
     if not GROQ_API_KEY:
         raise ValueError("GROQ_API_KEY not set. Add it to your .env file.")
 
-    # Step 1 — retrieve relevant chunks
-    chunks = semantic_search(question, top_k=top_k)
-
-    # Step 2 — build context string
-    context = build_context(chunks)
-
-    # Step 3 — build citations list
-    citations = [
-        {"title": c["title"], "source": c["source"], "score": c["score"]}
-        for c in chunks
-    ]
-
-    # Step 4 — call LLM with context
     client = Groq(api_key=GROQ_API_KEY)
-    user_message = f"CONTEXT:\n{context}\n\nQUESTION: {question}"
+
+    # Step 1 — retrieve relevant chunks
+    try:
+        chunks = semantic_search(question, top_k=top_k)
+    except Exception:
+        chunks = []
+
+    if chunks:
+        # RAG mode — use retrieved context
+        context = build_context(chunks)
+        citations = [
+            {"title": c["title"], "source": c["source"], "score": c["score"]}
+            for c in chunks
+        ]
+        user_message = f"CONTEXT:\n{context}\n\nQUESTION: {question}"
+        system = RAG_SYSTEM_PROMPT
+    else:
+        # Fallback mode — no index available, use LLM knowledge with system prompt
+        citations = []
+        user_message = question
+        system = (
+            RAG_SYSTEM_PROMPT
+            + "\n\nNote: The document index is not available right now. "
+            "Answer from your training knowledge about the RTI Act 2005, "
+            "but be clear that you cannot provide source citations."
+        )
 
     response = client.chat.completions.create(
         model=MODEL,
         messages=[
-            {"role": "system", "content": RAG_SYSTEM_PROMPT},
+            {"role": "system", "content": system},
             {"role": "user", "content": user_message},
         ],
         temperature=0.2,

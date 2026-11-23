@@ -20,8 +20,8 @@ env/
 # Data — raw files are large and re-downloadable
 data/raw/
 
-# Chroma vector store — rebuilt at runtime
-data/chroma/
+# NOTE: data/chroma/ is NOT ignored here
+# The Dockerfile builds the Chroma index during image build
 
 # Test cache
 .pytest_cache/

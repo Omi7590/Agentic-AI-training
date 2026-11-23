@@ -154,14 +154,33 @@ with chat_col:
 
     # Chat input pinned below the message container
     if prompt := st.chat_input("Ask an RTI question...", key="chat_input"):
+        # 1. Add user message to state immediately
         st.session_state.messages.append({"role": "user", "content": prompt})
 
-        with st.spinner("Searching RTI rules..."):
-            result = ask_api(prompt, use_agent=use_agent)
+        # 2. Show user message instantly in the container
+        with messages_container:
+            with st.chat_message("user"):
+                st.markdown(prompt)
 
-        answer = result.get("answer", "No answer returned.")
-        citations = result.get("citations", [])
+        # 3. Show assistant thinking with spinner
+        with messages_container:
+            with st.chat_message("assistant"):
+                with st.spinner("Searching RTI rules..."):
+                    result = ask_api(prompt, use_agent=use_agent)
 
+                answer = result.get("answer", "No answer returned.")
+                citations = result.get("citations", [])
+                st.markdown(answer)
+
+                if citations:
+                    with st.expander("📚 Citations"):
+                        for c in citations:
+                            st.markdown(
+                                f"- **{c.get('title', 'Source')}** — "
+                                f"[{c.get('source', '')}]({c.get('source', '')})"
+                            )
+
+        # 4. Save assistant message to state and rerun to sync
         st.session_state.messages.append({
             "role": "assistant",
             "content": answer,
