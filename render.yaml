@@ -8,3 +8,14 @@ services:
       - key: GROQ_API_KEY
         sync: false
     healthCheckPath: /health
+
+  - type: web
+    name: rti-mitra-ui
+    runtime: python
+    buildCommand: pip install -r requirements-ui.txt
+    startCommand: streamlit run ui/app.py --server.port $PORT --server.address 0.0.0.0
+    envVars:
+      - key: RTI_API_BASE
+        value: https://rti-mitra-mq86.onrender.com
+      - key: GROQ_API_KEY
+        sync: false
