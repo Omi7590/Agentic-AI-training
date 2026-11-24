@@ -4,6 +4,7 @@ import logging
 import time
 
 from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, field_validator
 
 from app.agent_loop import run_agent
@@ -44,6 +45,18 @@ app = FastAPI(
     title="RTI Mitra API",
     description="Explains the RTI Act and helps draft RTI applications.",
     version="0.1.0",
+)
+
+# ── CORS — only allow requests from the RTI Mitra UI ─────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://rti-mitra-ui.onrender.com",
+        "http://localhost:8501",
+        "http://127.0.0.1:8501",
+    ],
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
 
 
