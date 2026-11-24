@@ -240,7 +240,7 @@ Measured on 5 real RTI questions via Groq API (qwen/qwen3.8-27b):
 | Tests | 28 passing, 0 failing |
 | Ruff lint | ✅ All checks passed |
 | CI badge | ✅ Green |
-| Live API | https://rti-mitra-mq86.onrender.com |
+| Live API | https://rti-mitra-backend.onrender.com |
 | Live UI | https://rti-mitra-ui.onrender.com |
 
 ---

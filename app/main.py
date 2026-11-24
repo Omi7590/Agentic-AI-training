@@ -52,6 +52,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://rti-mitra-ui.onrender.com",
+        "https://rti-mitra-backend.onrender.com",
         "http://localhost:8501",
         "http://127.0.0.1:8501",
     ],
