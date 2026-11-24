@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import requests
 import streamlit as st
 
-API_BASE = os.getenv("RTI_API_BASE", "http://127.0.0.1:8000")
+API_BASE = os.getenv("RTI_API_BASE", "http://127.0.0.1:8000").rstrip("/")
 FEEDBACK_FILE = os.path.join(os.path.dirname(__file__), "feedback.jsonl")
 
 st.set_page_config(
@@ -83,6 +83,13 @@ html, body, [class*="css"] {
 .stTextInput input:focus, .stTextArea textarea:focus {
     border-color: #58a6ff !important;
     box-shadow: 0 0 0 3px rgba(88,166,255,0.1) !important;
+}
+
+/* Placeholders - dim so they never look like typed text */
+.stTextInput input::placeholder, .stTextArea textarea::placeholder {
+    color: #6e7681 !important;
+    opacity: 1 !important;
+    font-style: italic;
 }
 
 /* Labels */
@@ -280,7 +287,7 @@ with st.sidebar:
         <div style='color:#58a6ff;font-size:0.8rem;line-height:1.8'>
             • RTI fee in Maharashtra?<br>
             • PIO reply deadline?<br>
-            • Draft RTI to Kopargaon Samiti<br>
+            • Draft an RTI to a Panchayat Samiti<br>
             • BPL fee exemption?<br>
             • First appeal process?
         </div>
@@ -405,13 +412,13 @@ with preview_col:
     """, unsafe_allow_html=True)
 
     with st.container():
-        applicant_name = st.text_input("Your full name", placeholder="Om Jarhad", label_visibility="visible")
-        applicant_address = st.text_input("Your address", placeholder="Kopargaon, Dist. Ahmednagar, Maharashtra")
-        authority = st.text_input("Authority / PIO office", placeholder="Kopargaon Panchayat Samiti")
-        authority_address = st.text_input("Authority address", placeholder="Kopargaon, Dist. Ahmednagar - 423601")
+        applicant_name = st.text_input("Your full name", placeholder="Enter your full name", label_visibility="visible")
+        applicant_address = st.text_input("Your address", placeholder="House no., street, village / city, district, state")
+        authority = st.text_input("Authority / PIO office", placeholder="Office to which you are applying")
+        authority_address = st.text_input("Authority address", placeholder="Office address with PIN code")
         information_sought = st.text_area(
             "Information sought",
-            placeholder="Please provide a copy of the 2026 road-repair work order...",
+            placeholder="Describe the documents or information you want (max 150 words)",
             height=100,
         )
 
