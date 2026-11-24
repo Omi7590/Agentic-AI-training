@@ -56,7 +56,7 @@ def ask(question: str, top_k: int = 5) -> dict:
     # Step 1 — retrieve relevant chunks
     try:
         chunks = semantic_search(question, top_k=top_k)
-    except Exception:
+    except (RuntimeError, ValueError, OSError):
         chunks = []
 
     if chunks:
