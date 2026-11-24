@@ -182,15 +182,15 @@ The `.env` file must exist with your `GROQ_API_KEY` before running.
 
 ```mermaid
 graph TD
-    User["👤 Citizen / User"]
-    UI["🖥️ Streamlit UI\nui/app.py\nLive RTI Letter Preview"]
-    API["⚡ FastAPI\napp/main.py\n/health /ask /chat /agent"]
-    RAG["🔍 RAG Pipeline\napp/rag.py\nChroma + Groq LLM"]
-    Agent["🤖 LangGraph Agent\napp/graph.py\nMemory + Approval Step"]
-    Tool["🛠️ RTI Tool\napp/tools.py\ndraft_rti_application"]
-    Chroma["🗄️ Chroma Vector Store\ndata/chroma/\n24 RTI rule chunks"]
-    LLM["🧠 Groq LLM\nqwen/qwen3.8-27b\navg 1057ms · avg 624 tokens"]
-    Docs["📄 RTI Act 2005 PDF\ndata/raw/\npdfplumber"]
+    User["Citizen / User"]
+    UI["Streamlit UI\nui/app.py\nLive RTI Letter Preview"]
+    API["FastAPI\napp/main.py\n/health /ask /chat /agent"]
+    RAG["RAG Pipeline\napp/rag.py\nChroma + Groq LLM"]
+    Agent["LangGraph Agent\napp/graph.py\nMemory + Approval Step"]
+    Tool["RTI Tool\napp/tools.py\ndraft_rti_application"]
+    Chroma["Chroma Vector Store\ndata/chroma/\n24 RTI rule chunks"]
+    LLM["Groq LLM\nqwen/qwen3.8-27b\navg 1057ms · avg 624 tokens"]
+    Docs["RTI Act 2005 PDF\ndata/raw/\npdfplumber"]
 
     User --> UI
     UI --> API
